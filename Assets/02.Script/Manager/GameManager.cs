@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour {
         // 색변환 이벤트
         changeColorEvent();
         // 장해물 소환
-        //SpawnObstacle();
+        SpawnObstacle();
 
         // 장해물 소환 패턴
         //SelectObstaclePatten();
@@ -83,20 +83,24 @@ public class GameManager : MonoBehaviour {
         // 반환 객체
         GameObject returnObj = null;
 
-        if (gameTime > 105) { // 사각형 반환
+        if (gameTime > 119) { // 사각형 반환
+        //if (gameTime > 105) { // 사각형 반환
             returnObj = ObjectManager.Instance.MakeObj(PoolType.SquareObj);
         }
-        else if (gameTime > 75) { // 오각형 반환
+        //else if (gameTime > 75) { // 오각형 반환
+        else if (gameTime > 118) { // 오각형 반환
             returnObj = ObjectManager.Instance.MakeObj(PoolType.PentagonObj);
         }
-        else if (gameTime > 55) { // 육각형 반환
-            //returnObj = ObjectManager.Instance.MakeObj(PoolType.SquareObj);
+        else if (gameTime > 117) { // 육각형 반환
+        //else if (gameTime > 55) { // 육각형 반환
+            returnObj = ObjectManager.Instance.MakeObj(PoolType.hexagonObj);
         }
-        else if (gameTime > 35) { // 칠각형 반환
-            //returnObj = ObjectManager.Instance.MakeObj(PoolType.SquareObj);
+        else if (gameTime > 116) { // 칠각형 반환
+        //else if (gameTime > 35) { // 칠각형 반환
+            returnObj = ObjectManager.Instance.MakeObj(PoolType.heptagonObj);
         }
         else { // 팔각형 반환
-            //returnObj = ObjectManager.Instance.MakeObj(PoolType.SquareObj);
+            returnObj = ObjectManager.Instance.MakeObj(PoolType.octagonObj);
         }
 
         return returnObj;

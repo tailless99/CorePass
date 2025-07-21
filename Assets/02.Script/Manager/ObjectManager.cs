@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public enum PoolType { SquareObj, PentagonObj, SliverCoin, GoldCoin, RedCoin }
+public enum PoolType { SquareObj, PentagonObj, hexagonObj, heptagonObj, octagonObj, SliverCoin, GoldCoin, RedCoin }
 public class ObjectManager : Singleton<ObjectManager>
 {
     [Header("Obstacle Prefabs")]
-    [SerializeField] public GameObject SquareObj_Prefab;
-    [SerializeField] public GameObject PentagonObj_Prefab;
+    [SerializeField] public GameObject SquareObj_Prefab;    // 사각형
+    [SerializeField] public GameObject PentagonObj_Prefab;  // 오각형
+    [SerializeField] public GameObject hexagonObj_Prefab;   // 육각형
+    [SerializeField] public GameObject heptagonObj_Prefab;  // 칠각형
+    [SerializeField] public GameObject octagonObj_Prefab;   // 팔각형
 
     [Header("Item Prefabs")]
     [SerializeField] public GameObject SliverCoinObj_Prefab;
@@ -18,6 +21,11 @@ public class ObjectManager : Singleton<ObjectManager>
     // 실제 오브젝트를 저장할 변수들
     [SerializeField] GameObject[] SquareObj;
     [SerializeField] GameObject[] PentagonObj;
+    [SerializeField] GameObject[] hexagonObj;
+    [SerializeField] GameObject[] heptagonObj;
+    [SerializeField] GameObject[] octagonObj;
+
+    // 실제 아이템을 저장할 변수들
     [SerializeField] GameObject[] SliverCoinObj;
     [SerializeField] GameObject[] GoldCoinObj;
     [SerializeField] GameObject[] RedCoinObj;
@@ -34,6 +42,9 @@ public class ObjectManager : Singleton<ObjectManager>
         // Obstacle
         SquareObj = new GameObject[10];
         PentagonObj = new GameObject[10];
+        hexagonObj = new GameObject[10];
+        heptagonObj = new GameObject[10];
+        octagonObj = new GameObject[10];
 
         // Items
         SliverCoinObj = new GameObject[100];
@@ -53,7 +64,19 @@ public class ObjectManager : Singleton<ObjectManager>
             PentagonObj[i] = Instantiate(PentagonObj_Prefab, SpawnParent);
             PentagonObj[i].SetActive(false);
         }
-
+        for (int i = 0; i < hexagonObj.Length; i++) {
+            hexagonObj[i] = Instantiate(hexagonObj_Prefab, SpawnParent);
+            hexagonObj[i].SetActive(false);
+        }
+        for (int i = 0; i < heptagonObj.Length; i++) {
+            heptagonObj[i] = Instantiate(heptagonObj_Prefab, SpawnParent);
+            heptagonObj[i].SetActive(false);
+        }
+        for (int i = 0; i < octagonObj.Length; i++) {
+            octagonObj[i] = Instantiate(octagonObj_Prefab, SpawnParent);
+            octagonObj[i].SetActive(false);
+        }
+        
         // Item
         for (int i = 0; i < SliverCoinObj.Length; i++) {
             SliverCoinObj[i] = Instantiate(SliverCoinObj_Prefab, SpawnParent);
@@ -77,6 +100,16 @@ public class ObjectManager : Singleton<ObjectManager>
             case PoolType.PentagonObj:
                 targetPool = PentagonObj;
                 break;
+            case PoolType.hexagonObj:
+                targetPool = hexagonObj;
+                break;
+            case PoolType.heptagonObj:
+                targetPool = heptagonObj;
+                break;
+            case PoolType.octagonObj:
+                targetPool = octagonObj;
+                break;
+                
             case PoolType.SliverCoin:
                 targetPool = SliverCoinObj;
                 break;
