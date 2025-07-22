@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum PoolType { SquareObj, PentagonObj, hexagonObj, heptagonObj, octagonObj, SliverCoin, GoldCoin, RedCoin }
+public enum PoolType { SquareObj, PentagonObj, hexagonObj, heptagonObj, octagonObj, SliverCoin, GoldCoin, RedCoin, Bomb, Clover }
 public class ObjectManager : Singleton<ObjectManager>
 {
     [Header("Obstacle Prefabs")]
@@ -11,9 +11,11 @@ public class ObjectManager : Singleton<ObjectManager>
     [SerializeField] public GameObject octagonObj_Prefab;   // 팔각형
 
     [Header("Item Prefabs")]
-    [SerializeField] public GameObject SliverCoinObj_Prefab;
-    [SerializeField] public GameObject GoldCoinObj_Prefab;
-    [SerializeField] public GameObject RedCoinObj_Prefab;
+    [SerializeField] public GameObject SliverCoinObj_Prefab; // 실버 코인
+    [SerializeField] public GameObject GoldCoinObj_Prefab;   // 골드 코인
+    [SerializeField] public GameObject RedCoinObj_Prefab;    // 레드 코인
+    [SerializeField] public GameObject BombObj_Prefab;    // 폭탄
+    [SerializeField] public GameObject CloverObj_Prefab;    // 클로버
 
 
     public Transform SpawnParent; // 인스턴스한 오브젝트를 모아넣을 오브젝트
@@ -29,6 +31,8 @@ public class ObjectManager : Singleton<ObjectManager>
     [SerializeField] GameObject[] SliverCoinObj;
     [SerializeField] GameObject[] GoldCoinObj;
     [SerializeField] GameObject[] RedCoinObj;
+    [SerializeField] GameObject[] BombObj;
+    [SerializeField] GameObject[] CloverObj;
 
 
     // 반환 변수
@@ -50,11 +54,14 @@ public class ObjectManager : Singleton<ObjectManager>
         SliverCoinObj = new GameObject[100];
         GoldCoinObj = new GameObject[100];
         RedCoinObj = new GameObject[100];
+        BombObj = new GameObject[100];
+        CloverObj = new GameObject[100];
 
         Generate();
     }
 
     private void Generate() {
+#region
         // Obstacle
         for (int i = 0; i < SquareObj.Length; i++) {
             SquareObj[i] = Instantiate(SquareObj_Prefab, SpawnParent);
@@ -76,7 +83,9 @@ public class ObjectManager : Singleton<ObjectManager>
             octagonObj[i] = Instantiate(octagonObj_Prefab, SpawnParent);
             octagonObj[i].SetActive(false);
         }
-        
+#endregion
+
+#region
         // Item
         for (int i = 0; i < SliverCoinObj.Length; i++) {
             SliverCoinObj[i] = Instantiate(SliverCoinObj_Prefab, SpawnParent);
@@ -90,10 +99,20 @@ public class ObjectManager : Singleton<ObjectManager>
             RedCoinObj[i] = Instantiate(RedCoinObj_Prefab, SpawnParent);
             RedCoinObj[i].SetActive(false);
         }
+        for (int i = 0; i < BombObj.Length; i++) {
+            BombObj[i] = Instantiate(BombObj_Prefab, SpawnParent);
+            BombObj[i].SetActive(false);
+        }
+        for (int i = 0; i < CloverObj.Length; i++) {
+            CloverObj[i] = Instantiate(CloverObj_Prefab, SpawnParent);
+            CloverObj[i].SetActive(false);
+        }
+#endregion
     }
 
     public GameObject MakeObj(PoolType type) {
         switch (type) {
+#region
             case PoolType.SquareObj:
                 targetPool = SquareObj;
                 break;
@@ -109,7 +128,9 @@ public class ObjectManager : Singleton<ObjectManager>
             case PoolType.octagonObj:
                 targetPool = octagonObj;
                 break;
-                
+#endregion
+
+#region
             case PoolType.SliverCoin:
                 targetPool = SliverCoinObj;
                 break;
@@ -119,8 +140,15 @@ public class ObjectManager : Singleton<ObjectManager>
             case PoolType.RedCoin:
                 targetPool = RedCoinObj;
                 break;
+            case PoolType.Bomb:
+                targetPool = BombObj;
+                break;
+            case PoolType.Clover:
+                targetPool = CloverObj;
+                break;
+#endregion
         }
-        
+
         for (int i = 0; i < targetPool.Length; i++) {
             if (!targetPool[i].activeSelf) {
                 targetPool[i].SetActive(true);

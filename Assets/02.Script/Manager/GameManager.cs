@@ -83,20 +83,16 @@ public class GameManager : MonoBehaviour {
         // 반환 객체
         GameObject returnObj = null;
 
-        if (gameTime > 119) { // 사각형 반환
-        //if (gameTime > 105) { // 사각형 반환
+        if (gameTime > 105) { // 사각형 반환
             returnObj = ObjectManager.Instance.MakeObj(PoolType.SquareObj);
         }
-        //else if (gameTime > 75) { // 오각형 반환
-        else if (gameTime > 118) { // 오각형 반환
+        else if (gameTime > 75) { // 오각형 반환
             returnObj = ObjectManager.Instance.MakeObj(PoolType.PentagonObj);
         }
-        else if (gameTime > 117) { // 육각형 반환
-        //else if (gameTime > 55) { // 육각형 반환
+        else if (gameTime > 55) { // 육각형 반환
             returnObj = ObjectManager.Instance.MakeObj(PoolType.hexagonObj);
         }
-        else if (gameTime > 116) { // 칠각형 반환
-        //else if (gameTime > 35) { // 칠각형 반환
+        else if (gameTime > 35) { // 칠각형 반환
             returnObj = ObjectManager.Instance.MakeObj(PoolType.heptagonObj);
         }
         else { // 팔각형 반환
@@ -110,9 +106,9 @@ public class GameManager : MonoBehaviour {
     private void SpawnObstacle() {
         spawnTimer += Time.deltaTime;
         if (spawnTimer < maxSpawnTime) return; // 소환 쿨타임이 다되지 않았다면 반환
-        
+
         spawnTimer = 0;
-        
+
         // 장해물 소환
         GetObstacleObj();
     }

@@ -643,7 +643,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &376906091
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2151,6 +2151,8 @@ MonoBehaviour:
   SliverCoinObj_Prefab: {fileID: 8387790814470597724, guid: 5ecb49ab0cc2368469431df9ff7042ee, type: 3}
   GoldCoinObj_Prefab: {fileID: 6230385983850646319, guid: 278bc3b5a655689488f201fce4232332, type: 3}
   RedCoinObj_Prefab: {fileID: 6369258200913371947, guid: 0c2cdb60f928ffe40bfdae98e72cb199, type: 3}
+  BombObj_Prefab: {fileID: 1380352161539576711, guid: e64b82d5bd7b91b409215977e858eccd, type: 3}
+  CloverObj_Prefab: {fileID: 6423964216635489753, guid: 1fcdce7c857a378479664d1024230fb3, type: 3}
   SpawnParent: {fileID: 2060808438}
   SquareObj: []
   PentagonObj: []
@@ -2160,6 +2162,8 @@ MonoBehaviour:
   SliverCoinObj: []
   GoldCoinObj: []
   RedCoinObj: []
+  BombObj: []
+  CloverObj: []
 --- !u!1 &1404605166
 GameObject:
   m_ObjectHideFlags: 0
@@ -2629,11 +2633,11 @@ MonoBehaviour:
   colors:
   - {r: 0.6666667, g: 0.9529412, b: 0.5529412, a: 1}
   - {r: 0.3529412, g: 0.6745098, b: 1, a: 1}
-  - {r: 0.7137255, g: 0.3529412, b: 0.3529412, a: 1}
-  - {r: 0.7764706, g: 0.43529412, b: 0.8784314, a: 1}
+  - {r: 0.6191242, g: 0.0353078, b: 0.98490566, a: 1}
+  - {r: 0.98490566, g: 0.22113909, b: 0.36228073, a: 1}
   - {r: 1, g: 0.9098039, b: 0.45882353, a: 1}
   - {r: 0.48483804, g: 0.3830188, b: 1, a: 1}
-  - {r: 0.1716981, g: 1, b: 0.43258065, a: 1}
+  - {r: 0.6003631, g: 0.9169811, b: 0.7827795, a: 1}
   - {r: 1, g: 0.63293755, b: 0.26981127, a: 1}
   - {r: 1, g: 0.4509434, b: 0.47845972, a: 1}
   - {r: 1, g: 0.45882356, b: 0.9032678, a: 1}

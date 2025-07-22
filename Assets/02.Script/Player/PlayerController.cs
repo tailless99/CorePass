@@ -1,3 +1,4 @@
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,7 +15,10 @@ public class PlayerController : MonoBehaviour {
 
     // º¯¼ö
     private Vector2 moveDir;
-
+    private bool isKnockBack;
+    private float maxKnockBackTime = 0.25f;
+    private float currKnockBackCoolTime = 0
+        ;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
@@ -45,6 +49,13 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Move() {
+        if (isKnockBack) {
+            currKnockBackCoolTime += Time.deltaTime;
+
+            if (currKnockBackCoolTime >= maxKnockBackTime) isKnockBack = false;
+            else return;
+        }
+
         if (moveDir == Vector2.zero) {
             rb.linearVelocity = Vector2.zero;
             return;
@@ -55,6 +66,12 @@ public class PlayerController : MonoBehaviour {
 
     private void MoveCancle() {
         moveDir = Vector2.zero;
+    }
+
+    public void StartKnockBack(Vector3 dir, float knockBackPower) {
+        isKnockBack = true;
+        currKnockBackCoolTime = 0;
+        rb.AddForce(dir * knockBackPower, ForceMode2D.Impulse);
     }
 
     public void SetColliderColor() {

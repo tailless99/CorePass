@@ -35,8 +35,7 @@ public class ObstacleBase : MonoBehaviour {
     private void InitializeObstacle() {
         // 로컬 스케일 기록
         myLocalScale = transform.localScale;
-        var a = isStart == true ? "true!" : "F";
-        Debug.Log(gameObject.name + " / " + a);
+        
         if (!isStart) {
             isStart = true;
             return;
@@ -52,9 +51,8 @@ public class ObstacleBase : MonoBehaviour {
             if (isSpawned) {
                 spawnPos.TryGetComponent<CoinArea>(out var coinArea);
                 
-                int coinIndex = Random.Range(0, 3); // 생성할 코인 인덱스 랜덤 생성
-                coinArea?.ActiveCoin(coinIndex); // 오브젝트 풀을 사용해서 코인 활성화
-                //Instantiate(CoinPrefabs[coinIndex], spawnPos);
+                int coinIndex = Random.Range(0, 5); // 생성할 아이템 인덱스 랜덤 생성
+                coinArea?.ActiveCoin(coinIndex); // 오브젝트 풀을 사용해서 아이템 활성화
             }
         }
     }
@@ -95,47 +93,6 @@ public class ObstacleBase : MonoBehaviour {
             collider.GetComponent<SpriteRenderer>().color = currentColorList[1];
             collider.GetComponent<Collider2D>().enabled = true;
         }
-
-        // 랜덤 구역 안전구역으로 바꾸기
-        /*var ranIndex = Random.Range(0, colliders.Length);
-        int currentIndex = 0;
-
-        // ranIndex와 그 다음 두 개의 인덱스를 안전 구역으로 변경
-        for (int i = 0; i < 3; i++) {
-            // colliders.Length를 이용하여 인덱스가 배열 범위를 벗어나지 않도록 조정
-            currentIndex = (ranIndex + i) % colliders.Length;
-
-            colliders[currentIndex].GetComponent<SpriteRenderer>().color = currentColorList[0];
-            colliders[currentIndex].GetComponent<Collider2D>().enabled = false;
-        }
-
-        // 0은 이미 위에서 칠했으니, 그 다음인 1부터 염색
-        int colorListIndex = 1;
-        int loofCount = 0;
-        /*
-        foreach (var collider in colliders) {
-            // 안전지대로 설정한 색이 아닌 다른 콜라이더는 3개 단위로 다른 색으로 염색
-            if (collider.GetComponent<SpriteRenderer>().color != currentColorList[0]) {
-                // 4번째 루프마다 colorList의 인덱스값을 증가
-                if (loofCount != 0 && loofCount % 3 == 0) colorListIndex++;
-                collider.GetComponent<SpriteRenderer>().color = currentColorList[colorListIndex];
-            }
-            loofCount++;
-        }
-        */
-
-        /*int startIndex = currentIndex + 1; // 안전지대 다음 인덱스
-
-        // 안전지대를 제외한 나머지 블록 색 변경
-        for (int i = 0; i < colliders.Length; i++) {
-            // colliders.Length를 이용하여 인덱스가 배열 범위를 벗어나지 않도록 조정
-            currentIndex = (startIndex + i) % colliders.Length;
-            if (currentIndex == ranIndex) break;
-
-            if (loofCount != 0 && loofCount % 3 == 0) colorListIndex++;
-            colliders[currentIndex].GetComponent<SpriteRenderer>().color = currentColorList[colorListIndex];
-            loofCount++;
-        }*/
 
         // 랜덤한 구역을 안전 구역으로 설정 (3개)
         var ranStartIndex = Random.Range(0, colliders.Length); // 안전 구역 시작 인덱스

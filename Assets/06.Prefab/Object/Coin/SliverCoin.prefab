@@ -161,4 +161,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 100
+  addFeverScore: 100
   getCoinSound: {fileID: 8300000, guid: 26ffb4d39f06a33439517d4d84697c47, type: 3}
+  playerSound: 0.08

@@ -13,11 +13,30 @@ public class CoinArea : MonoBehaviour
     /// <param name="coinIndex"></param>
     public void ActiveCoin(int coinIndex) {
         // 코인 타입에 따른 이넘 할당
-        var coinType = coinIndex == 0 ? PoolType.SliverCoin : coinIndex == 1 ? PoolType.GoldCoin : PoolType.RedCoin;
+        PoolType coinType = PoolType.SliverCoin;
+
+        switch (coinIndex) {
+            case 0:
+                coinType = PoolType.SliverCoin;
+                break;
+            case 1:
+                coinType = PoolType.GoldCoin;
+                break;
+            case 2:
+                coinType = PoolType.RedCoin;
+                break;
+            case 3:
+                coinType = PoolType.Bomb;
+                break;
+            case 4:
+                coinType = PoolType.Clover;
+                break;
+        }
         
-        currentCoin = ObjectManager.Instance.MakeObj(coinType); // 코인 활성화
+        currentCoin = ObjectManager.Instance.MakeObj(coinType); // 아이템 활성화
         currentCoin.gameObject.transform.SetParent(this.transform); // 부모 설정
         currentCoin.gameObject.transform.localPosition = Vector3.zero;
+        currentCoin.gameObject.transform.localScale = Vector3.one * 1.5f;
     }
 
     private void OnDisable() {
