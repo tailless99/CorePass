@@ -13,15 +13,16 @@ public class ItemBase : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("Player")) {
             DetectedFunc(collision); // 자식에서 재정의해서 사용하는 함수
-
+            
             UIManager.Instance.AddScore(score);
             SoundManager.Instance.PlayOneShotSound(getCoinSound, playerSound);
             transform.gameObject.SetActive(false);
         }
     }
-
+    
     private void OnDisable() {
         transform.localScale = Vector3.one * 1.5f;
+        gameObject.SetActive(false);
     }
 
     // 자식에서 재정의해서 사용하는 함수

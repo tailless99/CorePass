@@ -43,7 +43,7 @@ public class CoinArea : MonoBehaviour
         // 만약 코인이 있다면
         if (currentCoin != null) {
             // 코인 반환
-            currentCoin.gameObject.SetActive(false);
+            //currentCoin.gameObject.SetActive(false);
         }
     }
 }
