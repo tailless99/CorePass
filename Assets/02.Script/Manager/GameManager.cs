@@ -1,7 +1,7 @@
 using Mono.Cecil.Cil;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : Singleton<GameManager> {
     [Header("Game Settings")]
     [SerializeField] private float gameTime = 120f; // 1판에 걸리는 시간 제한
     [SerializeField] private float maxSpawnTime = .5f; // 장해물 소환 주기
@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
     // 멤버 변수
     private float changeColorTimer; // 색변환 이벤트 타이머
     private float spawnTimer = 0; // 장해물 활성화 타이머
+    private bool isFever; // 피버 상태 토글 변수
 
 
     // 사용 안하기로 계획 변경 - 잠정 보류
@@ -25,10 +26,11 @@ public class GameManager : MonoBehaviour {
     */
 
 
-    private void Awake() {
-        changeColorEffect_Prefab.SetActive(false);
+    protected override void Awake() {
+        base.Awake();
 
         // 초기화
+        changeColorEffect_Prefab.SetActive(false);
         changeColorTimer = colorChangeEventCoolTime;
     }
 
@@ -110,54 +112,19 @@ public class GameManager : MonoBehaviour {
         spawnTimer = 0;
 
         // 장해물 소환
-        GetObstacleObj();
+        var obstacle = GetObstacleObj();
+        obstacle.GetComponent<ObstacleBase>().OnToggleColliderActive(!isFever); // 콜라이더 활성/비활성
     }
 
-    /*
-    // 장해물 소환 패턴
-    private void SelectObstaclePatten() {
-        // 패턴 중이 아니라면
-        if (!isPattening) {
-            // 초기화
-            isPattening = true; // 패턴 실행 플래그
-            randomPatten = Random.Range(0, 101); // 0 ~ 100% 사이 랜덤 가중치 출력
-            currentSpawnCount = 0; // 현재 소환한 장해물 수 초기화
-            spawnTimer = 0; // 장해물 활성화 타이머 초기화
-        }
-        // 패턴 중이라면
-        else {
-            // 가중치에 따라 패턴 실행
-            if (randomPatten > 70) { // 30% 확률의 패턴
-                Patten_RandomSafeBlock();
+    public void SetFeverState(bool isFevered) {
+        isFever = isFevered;
+
+        // 피버 시작 시 모든 장애물의 콜라이더 비활성화
+        if (isFevered) {
+            var obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+            foreach (var obstacle in obstacles) {
+                obstacle.GetComponent<ObstacleBase>().OnToggleColliderActive(!isFevered); // 콜라이더 활성/비활성
             }
         }
     }
-
-#region PattenFunc
-    // 랜덤한 곳이 안전지대가 되는 패턴
-    private void Patten_RandomSafeBlock() {
-        maxSpawnCount = 6; // 소환할 최대 장해물 숫자
-        maxSpawnTime = .2f; // 소환주기
-
-        while(currentSpawnCount < maxSpawnCount) {
-            spawnTimer += Time.deltaTime;
-
-            if (spawnTimer < maxSpawnTime) continue;
-            spawnTimer = 0f; // 재사용을 위해 초기화
-
-            // 장해물 생성
-            var obj = GetObstacleObj();
-            obj.TryGetComponent<ObstacleBase>(out var obstacleObj);
-            
-            // 생성한 장해물 클래스에 들어가서 안전지대 설정하는 부분을 리빌딩하고
-            // 안전지대를 내가 고를 수 있도록 커스텀 해야함.
-
-            // 후처리
-            currentSpawnCount++; // 소환 카운트 증가
-        }
-
-        isPattening = false;
-    }
-#endregion
-    */
 }

@@ -21,9 +21,10 @@ public class ObstacleBase : MonoBehaviour {
     public Vector3 myLocalScale;
     private bool isStart;
 
+
     private void Start() {
         SetRatateDir(false);
-        
+
     }
 
     private void OnEnable() {
@@ -35,22 +36,27 @@ public class ObstacleBase : MonoBehaviour {
     private void InitializeObstacle() {
         // 로컬 스케일 기록
         myLocalScale = transform.localScale;
-        
+
         if (!isStart) {
             isStart = true;
             return;
         }
-        
+
         // 회전속도 랜덤
-        rollSpeed = Random.Range(0.02f, 0.09f); 
+        rollSpeed = Random.Range(0.02f, 0.09f);
+
+        // 콜라이더 활성화
+        foreach (var coll in colliders) {
+            coll.SetActive(true);
+        }
 
         // 코인 배치
-        foreach(var spawnPos in spawnPoints) {
+        foreach (var spawnPos in spawnPoints) {
             var ranVal = Random.Range(0, 101);
             bool isSpawned = ranVal <= spawnProbability ? true : false;
             if (isSpawned) {
                 spawnPos.TryGetComponent<CoinArea>(out var coinArea);
-                
+
                 int coinIndex = Random.Range(0, 5); // 생성할 아이템 인덱스 랜덤 생성
                 coinArea?.ActiveCoin(coinIndex); // 오브젝트 풀을 사용해서 아이템 활성화
             }
@@ -72,6 +78,12 @@ public class ObstacleBase : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.CompareTag("DeathZone")) {
+            this.transform.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("DeathZone")) {
             this.transform.gameObject.SetActive(false);
         }
@@ -148,6 +160,14 @@ public class ObstacleBase : MonoBehaviour {
                 }
             }
             countColored++; // 색칠한 콜라이더 개수 증가
+        }
+    }
+
+    // 피버 상태에 따른 콜라이더 활성/비활성화
+    public void OnToggleColliderActive(bool colliderActive) {
+        // 피버 상태에 따라 콜라이더 비활성화
+        foreach (var coll in colliders) {
+            coll.SetActive(colliderActive);
         }
     }
 }
