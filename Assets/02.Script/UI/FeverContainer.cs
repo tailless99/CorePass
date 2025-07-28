@@ -40,7 +40,6 @@ public class FeverContainer : MonoBehaviour
 
         // 최대, 최소값 제한
         curFeverPoint = Mathf.Clamp(curFeverPoint + addPoint, 0, maxFeverPoint);
-        Debug.Log($"value = {curFeverPoint}  / {maxFeverPoint}");
         
         // 슬라이더에 값 반영
         slider.value = (float)curFeverPoint / (float)maxFeverPoint;

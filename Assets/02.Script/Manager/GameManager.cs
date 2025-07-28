@@ -5,6 +5,8 @@ public class GameManager : Singleton<GameManager> {
     [Header("Game Settings")]
     [SerializeField] private float gameTime = 120f; // 1판에 걸리는 시간 제한
     [SerializeField] private float maxSpawnTime = .5f; // 장해물 소환 주기
+    [SerializeField] private AudioClip gameBGM;
+    [SerializeField] private AudioClip gameClearsound;
 
     [Header("Change Color Event Settings")]
     [SerializeField] private GameObject changeColorEffect_Prefab;
@@ -14,16 +16,8 @@ public class GameManager : Singleton<GameManager> {
     private float changeColorTimer; // 색변환 이벤트 타이머
     private float spawnTimer = 0; // 장해물 활성화 타이머
     private bool isFever; // 피버 상태 토글 변수
-
-
-    // 사용 안하기로 계획 변경 - 잠정 보류
-    // 패턴 실행에 사용되는 변수
-    /*
-        private int randomPatten; // 랜덤 패턴 실행 키
-        private int maxSpawnCount; // 소환할 최대 장해물 숫자
-        private int currentSpawnCount; // 현재 소환한 장해물 수
-        private bool isPattening;
-    */
+    [SerializeField] private bool isSpawnStop; // 장애물 소환 제어 플래그 변수
+    [SerializeField] private bool isGameOver;
 
 
     protected override void Awake() {
@@ -32,6 +26,18 @@ public class GameManager : Singleton<GameManager> {
         // 초기화
         changeColorEffect_Prefab.SetActive(false);
         changeColorTimer = colorChangeEventCoolTime;
+    }
+
+    private void Start() {
+        SoundManager.Instance.PlaySound(gameBGM, 0.18f, 1f, true); // BGM 재생
+    }
+
+    private void OnEnable() {
+        gameTime = UIManager.Instance.GetMaxGameTime();
+        UIManager.Instance.UpdateClock(gameTime);  // UI 갱신
+
+        isSpawnStop = true;
+        isGameOver = true;
     }
 
     private void Update() {
@@ -73,8 +79,23 @@ public class GameManager : Singleton<GameManager> {
 
     // 시간 갱신
     public void UpdateClock() {
+        // 게임 오버시 시간이 흐르지 않음
+        if (isGameOver) return;
+
         gameTime -= Time.deltaTime; // 시간 감소
         UIManager.Instance.UpdateClock(gameTime);  // UI 갱신
+
+        // 게임 클리어 처리
+        if (gameTime <= 117 && !isGameOver) {
+            // 게임종료 처리
+            isSpawnStop = false;
+            GameOver();
+
+            // 게임 엔드 뷰 출력
+            UIManager.Instance.ShowGameEndView(false);
+            // 클리어 사운드 재생
+            SoundManager.Instance.PlaySound(gameClearsound, 0.18f, 1f);
+        }
     }
 
     /// <summary>
@@ -97,7 +118,7 @@ public class GameManager : Singleton<GameManager> {
         else if (gameTime > 35) { // 칠각형 반환
             returnObj = ObjectManager.Instance.MakeObj(PoolType.heptagonObj);
         }
-        else { // 팔각형 반환
+        else if (gameTime > 4) { // 팔각형 반환
             returnObj = ObjectManager.Instance.MakeObj(PoolType.octagonObj);
         }
 
@@ -106,6 +127,8 @@ public class GameManager : Singleton<GameManager> {
 
     // 주기마다 장해물 소환
     private void SpawnObstacle() {
+        if (isSpawnStop) return;
+
         spawnTimer += Time.deltaTime;
         if (spawnTimer < maxSpawnTime) return; // 소환 쿨타임이 다되지 않았다면 반환
 
@@ -113,7 +136,7 @@ public class GameManager : Singleton<GameManager> {
 
         // 장해물 소환
         var obstacle = GetObstacleObj();
-        obstacle.GetComponent<ObstacleBase>().OnToggleColliderActive(!isFever); // 콜라이더 활성/비활성
+        obstacle.GetComponent<ObstacleBase>()?.OnToggleColliderActive(!isFever); // 콜라이더 활성/비활성
     }
 
     public void SetFeverState(bool isFevered) {
@@ -127,4 +150,58 @@ public class GameManager : Singleton<GameManager> {
             }
         }
     }
+
+    // 게임 오버 상태 변환
+    public void GameOver() => isGameOver = !isGameOver;
+
+    // 게임 시간 반환
+    public float GetGameTime() => gameTime;
+
+    // 광고보고 다시 시작하는 기능
+    public void ResumeGameAfterAd() {
+        // 맵상에서 장애물 제거
+        isSpawnStop = true; // 소환 막는 플래그
+        AllObstacleActive(false);
+
+        // 연출 시작
+        // UI 요소 키기
+        UIManager.Instance.ReStartGame();
+    }
+
+    // 게임을 다시 시작하기 위한 전처리
+    public void ReStartGameSetting(bool isInit = false) {
+        StartGameSetting();
+        AllObstacleActive(false);
+
+        // 초기화 시, 타이머 초기화
+        if (isInit) {
+            gameTime = UIManager.Instance.GetMaxGameTime();
+            UIManager.Instance.UpdateClock(gameTime);  // UI 갱신
+        }
+
+        // 다른 컨테이너 초기화
+        UIManager.Instance.ResetScore();
+        SoundManager.Instance.AllAudioStop();
+        SoundManager.Instance.PlaySound(gameBGM, 0.18f, 1f, true); // BGM 재생
+
+        var player = GameObject.Find("Player");
+        player.GetComponent<PlayerController>().ToggleGamePlayerActivated(true);
+    }
+
+    // 씬상의 모든 장애물을 On/Off하는 기능
+    private void AllObstacleActive(bool isActive) {
+        var obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+        foreach (var obstacle in obstacles) {
+            obstacle.SetActive(isActive); // 장애물 비활성화
+        }
+    }
+
+    // 초기 게임시작에 사용되는 초기화
+    public void StartGameSetting() {
+        isSpawnStop = false; // 스폰 시작
+        GameOver(); // 게임 제한시간 타이머 시작
+    }
+
+    // 게임 종료 여부 반환
+    public bool GetIsGameOver() => isGameOver;
 }

@@ -13,6 +13,7 @@ public class SoundManager : Singleton<SoundManager>
     /// 자주 사용하는 오디오 클립을 자제적으로 가지고 있게 하기 위한 변수
     /// 0 : 플레이어 죽음
     /// 1 : 게임오버 오디오
+    /// 2 : UI 버튼 클릭
     /// </summary>
     [SerializeField] private List<AudioClip> commonAudioClipsList;
 
@@ -33,12 +34,13 @@ public class SoundManager : Singleton<SoundManager>
     }
 
     // 오디오 소스에 할당된 음원을 재생하는 기능
-    public void PlaySound(AudioClip clip, float volume = 1f, float pitch = 1f) {
+    public void PlaySound(AudioClip clip, float volume = 1f, float pitch = 1f, bool isLoop = false) {
         AudioSource source = GetAvailableSource();
         if (source != null && clip != null) {
             source.clip = clip;
             source.volume = volume;
             source.pitch = pitch;
+            source.loop = isLoop;
             source.Play();
         }
     }
@@ -78,14 +80,17 @@ public class SoundManager : Singleton<SoundManager>
     }
 
     public void GameOver() {
+        AllAudioStop();
+
+        isGameOver = true; // 이벤트 플래그
+        PlaySound(commonAudioClipsList[0], .25f);
+    }
+
+    // 모든 재생중인 음악 정지
+    public void AllAudioStop() {
         // 모든 재생중인 음악을 정지하는 기능
         foreach (AudioSource source in availableSources)
             if (source.isPlaying) source.Stop();
-
-        isGameOver = true; // 이벤트 플래그
-        availableSources[0].clip = commonAudioClipsList[0];
-        availableSources[0].volume = .25f;
-        availableSources[0].Play();
     }
 
     private void Update() {
@@ -97,5 +102,10 @@ public class SoundManager : Singleton<SoundManager>
                 availableSources[0].Play();
             }
         }
+    }
+
+    // 버튼 클릭시 사운드 출력
+    public void UIBtnClick() {
+        PlayOneShotSound(commonAudioClipsList[2], .5f);
     }
 }

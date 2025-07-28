@@ -4,6 +4,7 @@ using UnityEngine;
 public class ClockContainer : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timeText;
+    [SerializeField] private float maxGameTime = 120; // 게임 제한 시간
 
     private void Awake() {
         // 초기화
@@ -11,6 +12,9 @@ public class ClockContainer : MonoBehaviour
     }
 
     public void UpdateClock(float time) {
-        timeText.text = "Time : " + time.ToString("F0");
+        var timeTemp = Mathf.Clamp(time, 0, maxGameTime);
+        timeText.text = "Time : " + timeTemp.ToString("F0");
     }
+
+    public float GetMaxGameTime() => maxGameTime;
 }

@@ -27,6 +27,15 @@ public class ScoreContainer : MonoBehaviour
         textAnimator.SetTrigger("ScoreChanged"); // 애니메이션 재생
     }
 
+    // 스코어 반환
+    public int GetScore() => score;
+
+    // 스코어 초기화
+    public void ResetScore() {
+        score = 0;
+        scoreText.text = score.ToString();
+    }
+
     // 피버 On/Off 변수 토글
     public void SetFiverState(bool isFevered) => isFever = isFevered;
 }
