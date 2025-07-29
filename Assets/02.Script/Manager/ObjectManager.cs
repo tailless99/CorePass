@@ -51,11 +51,11 @@ public class ObjectManager : Singleton<ObjectManager>
         octagonObj = new GameObject[10];
 
         // Items
-        SliverCoinObj = new GameObject[100];
-        GoldCoinObj = new GameObject[100];
-        RedCoinObj = new GameObject[100];
-        BombObj = new GameObject[100];
-        CloverObj = new GameObject[100];
+        SliverCoinObj = new GameObject[70];
+        GoldCoinObj = new GameObject[70];
+        RedCoinObj = new GameObject[70];
+        BombObj = new GameObject[70];
+        CloverObj = new GameObject[70];
 
         Generate();
     }

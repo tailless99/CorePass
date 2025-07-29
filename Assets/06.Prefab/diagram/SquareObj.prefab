@@ -564,7 +564,7 @@ MonoBehaviour:
   - {fileID: 588186410331197984}
   - {fileID: 8656795355061797236}
   - {fileID: 8272360952635233593}
-  spawnProbability: 50
+  spawnProbability: 40
   myLocalScale: {x: 0, y: 0, z: 0}
 --- !u!50 &5245697580911288641
 Rigidbody2D:

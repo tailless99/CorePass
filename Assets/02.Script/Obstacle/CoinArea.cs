@@ -3,6 +3,7 @@ using UnityEngine;
 public class CoinArea : MonoBehaviour
 {
     private GameObject currentCoin; // 코인을 담을 전역 변수
+    private const float BOMB_SPAWN_RATE = 3f;
 
     /// <summary>
     /// coinIndex는 어떤 코인을 출력할지를 정하는 파라메터입니다.
@@ -14,8 +15,9 @@ public class CoinArea : MonoBehaviour
     public void ActiveCoin(int coinIndex) {
         // 코인 타입에 따른 이넘 할당
         PoolType coinType = PoolType.SliverCoin;
+        var selectItemIndex = SpawnObjType();
 
-        switch (coinIndex) {
+        switch (selectItemIndex) {
             case 0:
                 coinType = PoolType.SliverCoin;
                 break;
@@ -39,11 +41,13 @@ public class CoinArea : MonoBehaviour
         currentCoin.gameObject.transform.localScale = Vector3.one * 1.5f;
     }
 
-    private void OnDisable() {
-        // 만약 코인이 있다면
-        if (currentCoin != null) {
-            // 코인 반환
-            //currentCoin.gameObject.SetActive(false);
-        }
+    // 아이템 선택 로직
+    private int SpawnObjType() {
+        var gameLevel = GameManager.Instance.GetGameLevel();
+        var bombSpawnChance = gameLevel * BOMB_SPAWN_RATE; // 폭탄 출현 확률
+        var isSpawnBomb = Random.Range(0,101) <= bombSpawnChance ? true : false;  // 폭탄 출현 여부
+
+        if (isSpawnBomb) return (int)PoolType.Bomb;
+        else return Random.Range(0, 4);
     }
 }

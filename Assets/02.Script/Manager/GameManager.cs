@@ -1,4 +1,3 @@
-using Mono.Cecil.Cil;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager> {
@@ -13,12 +12,12 @@ public class GameManager : Singleton<GameManager> {
     [SerializeField] private float colorChangeEventCoolTime = 23f; // 색변환 이벤트 쿨타임
 
     // 멤버 변수
+    private int gameLevel;
     private float changeColorTimer; // 색변환 이벤트 타이머
     private float spawnTimer = 0; // 장해물 활성화 타이머
     private bool isFever; // 피버 상태 토글 변수
-    [SerializeField] private bool isSpawnStop; // 장애물 소환 제어 플래그 변수
-    [SerializeField] private bool isGameOver;
-
+    private bool isSpawnStop; // 장애물 소환 제어 플래그 변수
+    private bool isGameOver;
 
     protected override void Awake() {
         base.Awake();
@@ -86,7 +85,7 @@ public class GameManager : Singleton<GameManager> {
         UIManager.Instance.UpdateClock(gameTime);  // UI 갱신
 
         // 게임 클리어 처리
-        if (gameTime <= 117 && !isGameOver) {
+        if (gameTime <= 0 && !isGameOver) {
             // 게임종료 처리
             isSpawnStop = false;
             GameOver();
@@ -105,21 +104,46 @@ public class GameManager : Singleton<GameManager> {
     private GameObject GetObstacleObj() {
         // 반환 객체
         GameObject returnObj = null;
+        gameLevel = 0;
 
         if (gameTime > 105) { // 사각형 반환
-            returnObj = ObjectManager.Instance.MakeObj(PoolType.SquareObj);
+            gameLevel = 1;
         }
         else if (gameTime > 75) { // 오각형 반환
-            returnObj = ObjectManager.Instance.MakeObj(PoolType.PentagonObj);
+            gameLevel = 2;
         }
         else if (gameTime > 55) { // 육각형 반환
-            returnObj = ObjectManager.Instance.MakeObj(PoolType.hexagonObj);
+            gameLevel = 3;
         }
         else if (gameTime > 35) { // 칠각형 반환
-            returnObj = ObjectManager.Instance.MakeObj(PoolType.heptagonObj);
+            gameLevel = 4;
         }
         else if (gameTime > 4) { // 팔각형 반환
-            returnObj = ObjectManager.Instance.MakeObj(PoolType.octagonObj);
+            gameLevel = 5;
+        }
+        else {
+            gameLevel = 6;
+        }
+
+        switch (gameLevel) {
+            case 1:
+                returnObj = ObjectManager.Instance.MakeObj(PoolType.SquareObj);
+                break;
+            case 2:
+                returnObj = ObjectManager.Instance.MakeObj(PoolType.PentagonObj);
+                break;
+            case 3:
+                returnObj = ObjectManager.Instance.MakeObj(PoolType.hexagonObj);
+                break;
+            case 4:
+                returnObj = ObjectManager.Instance.MakeObj(PoolType.heptagonObj);
+                break;
+            case 5:
+                returnObj = ObjectManager.Instance.MakeObj(PoolType.octagonObj);
+                break;
+            case 6:
+                returnObj = null;
+                break;
         }
 
         return returnObj;
@@ -204,4 +228,7 @@ public class GameManager : Singleton<GameManager> {
 
     // 게임 종료 여부 반환
     public bool GetIsGameOver() => isGameOver;
+
+    // 게임 난이도 반환
+    public int GetGameLevel() => gameLevel;
 }

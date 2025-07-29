@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pentagon_Center_311x80_0: -12963287395935690
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      FeverBar_BG_0: 5314222392505020554
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
