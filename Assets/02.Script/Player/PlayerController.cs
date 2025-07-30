@@ -56,21 +56,25 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void InputThouch(InputAction.CallbackContext context) {
+        if (context.canceled) {
+            moveDir = Vector2.zero;
+            return;
+        }
+
         var InputDir = context.ReadValue<Vector2>();
-        moveDir = InputDir.normalized;
+        
+        if(InputDir.magnitude < .1f) {
+            moveDir = Vector2.zero;
+        }
+        else
+            moveDir = InputDir.normalized;
     }
 
     private void Move() {
         if (isKnockBack) {
             currKnockBackCoolTime += Time.deltaTime;
-
             if (currKnockBackCoolTime >= maxKnockBackTime) isKnockBack = false;
             else return;
-        }
-
-        if (moveDir == Vector2.zero) {
-            rb.linearVelocity = Vector2.zero;
-            return;
         }
 
         rb.linearVelocity = moveDir * moveSpeed;

@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: -2124225117
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -43756457481167127, guid: 6455eada56a4e944895880b952c6ee30, type: 3}
+  m_Sprite: {fileID: 2208703988740019828, guid: 0f063c3b26ee76d4587791335648b9fa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -161,8 +161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: -300
-  addFeverScore: -100
+  addFeverScore: -150
   getCoinSound: {fileID: 8300000, guid: 47c5b059fd8b75949a35bdc11dd16207, type: 3}
-  playerSound: 1
+  playerSound: 5
   CollideEffect_Prefab: {fileID: 6565603973718227941, guid: df93ed7800473094a802fce711d56489, type: 3}
   knockBackPower: 15

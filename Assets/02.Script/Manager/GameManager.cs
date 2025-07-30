@@ -202,6 +202,7 @@ public class GameManager : Singleton<GameManager> {
             gameTime = UIManager.Instance.GetMaxGameTime();
             UIManager.Instance.UpdateClock(gameTime);  // UI 갱신
         }
+        changeColorTimer = colorChangeEventCoolTime;
 
         // 다른 컨테이너 초기화
         UIManager.Instance.ResetScore();

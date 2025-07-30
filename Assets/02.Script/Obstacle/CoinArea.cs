@@ -1,9 +1,15 @@
+using System.Xml.Schema;
 using UnityEngine;
 
 public class CoinArea : MonoBehaviour
 {
     private GameObject currentCoin; // 코인을 담을 전역 변수
-    private const float BOMB_SPAWN_RATE = 3f;
+    private const float BOMB_SPAWN_RATE = 2f;
+    private const int SLIVERCOIN_SPAWN_RATE = 40;
+    private const int GOLDCOIN_SPAWN_RATE = 30;
+    private const int REDCOIN_SPAWN_RATE = 20;
+    private const int CLOVER_SPAWN_RATE = 10; // 나머지라서 아직은 사용안함
+
 
     /// <summary>
     /// coinIndex는 어떤 코인을 출력할지를 정하는 파라메터입니다.
@@ -18,20 +24,20 @@ public class CoinArea : MonoBehaviour
         var selectItemIndex = SpawnObjType();
 
         switch (selectItemIndex) {
-            case 0:
+            case (int)PoolType.SliverCoin:
                 coinType = PoolType.SliverCoin;
                 break;
-            case 1:
+            case (int)PoolType.GoldCoin:
                 coinType = PoolType.GoldCoin;
                 break;
-            case 2:
+            case (int)PoolType.RedCoin:
                 coinType = PoolType.RedCoin;
                 break;
-            case 3:
-                coinType = PoolType.Bomb;
-                break;
-            case 4:
+            case (int)PoolType.Clover:
                 coinType = PoolType.Clover;
+                break;
+            case (int)PoolType.Bomb:
+                coinType = PoolType.Bomb;
                 break;
         }
         
@@ -45,9 +51,18 @@ public class CoinArea : MonoBehaviour
     private int SpawnObjType() {
         var gameLevel = GameManager.Instance.GetGameLevel();
         var bombSpawnChance = gameLevel * BOMB_SPAWN_RATE; // 폭탄 출현 확률
-        var isSpawnBomb = Random.Range(0,101) <= bombSpawnChance ? true : false;  // 폭탄 출현 여부
+        var isSpawnBomb = (float)Random.Range(0,101) <= bombSpawnChance ? true : false;  // 폭탄 출현 여부
 
         if (isSpawnBomb) return (int)PoolType.Bomb;
-        else return Random.Range(0, 4);
+        else {
+            // 아이템 출현 확률 다시 출력
+            var ranNum = Random.Range(0, 101);
+            var selectIndex = ranNum <= SLIVERCOIN_SPAWN_RATE ? (int)PoolType.SliverCoin :
+                ranNum <= SLIVERCOIN_SPAWN_RATE + GOLDCOIN_SPAWN_RATE ? (int)PoolType.GoldCoin :
+                ranNum <= SLIVERCOIN_SPAWN_RATE + GOLDCOIN_SPAWN_RATE + REDCOIN_SPAWN_RATE ? (int)PoolType.RedCoin : (int)PoolType.Clover;
+            Debug.Log("item rand : " + ranNum);
+
+            return selectIndex;
+        }
     }
 }
