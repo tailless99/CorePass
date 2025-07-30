@@ -60,8 +60,6 @@ public class CoinArea : MonoBehaviour
             var selectIndex = ranNum <= SLIVERCOIN_SPAWN_RATE ? (int)PoolType.SliverCoin :
                 ranNum <= SLIVERCOIN_SPAWN_RATE + GOLDCOIN_SPAWN_RATE ? (int)PoolType.GoldCoin :
                 ranNum <= SLIVERCOIN_SPAWN_RATE + GOLDCOIN_SPAWN_RATE + REDCOIN_SPAWN_RATE ? (int)PoolType.RedCoin : (int)PoolType.Clover;
-            Debug.Log("item rand : " + ranNum);
-
             return selectIndex;
         }
     }
