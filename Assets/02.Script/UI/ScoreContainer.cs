@@ -23,7 +23,7 @@ public class ScoreContainer : MonoBehaviour
     public void AddScore(int addScore) {
         int feverBonus = isFever ? 2 : 1; // 피버중이면 점수가 2배, 아니면 1배
         score += addScore * feverBonus;
-        scoreText.text = score.ToString();
+        scoreText.text = score.ToString("N0");
         textAnimator.SetTrigger("ScoreChanged"); // 애니메이션 재생
     }
 

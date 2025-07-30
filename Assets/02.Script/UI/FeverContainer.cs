@@ -45,7 +45,10 @@ public class FeverContainer : MonoBehaviour
         slider.value = (float)curFeverPoint / (float)maxFeverPoint;
 
         // 피버 포인트가 다찼다면 피버 상태 돌입 플래그
-        if (curFeverPoint >= maxFeverPoint) isFevering = true;
+        if (curFeverPoint >= maxFeverPoint) {
+            curFeverPoint = 0; // 초기화
+            isFevering = true;
+        }
     }
 
     // 피버 타임 로직
