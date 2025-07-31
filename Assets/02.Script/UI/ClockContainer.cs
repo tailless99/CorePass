@@ -13,7 +13,7 @@ public class ClockContainer : MonoBehaviour
 
     public void UpdateClock(float time) {
         var timeTemp = Mathf.Clamp(time, 0, maxGameTime);
-        timeText.text = "Time : " + timeTemp.ToString("F0");
+        timeText.text = timeTemp.ToString("F0");
     }
 
     public float GetMaxGameTime() => maxGameTime;
