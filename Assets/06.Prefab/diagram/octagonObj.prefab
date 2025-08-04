@@ -3639,7 +3639,7 @@ MonoBehaviour:
   - {fileID: 2881515773481041430}
   - {fileID: 2781616803122180212}
   - {fileID: 6719890963217796714}
-  spawnProbability: 100
+  spawnProbability: 35
   myLocalScale: {x: 0, y: 0, z: 0}
 --- !u!50 &1573601881630428945
 Rigidbody2D:

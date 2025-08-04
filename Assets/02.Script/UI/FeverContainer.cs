@@ -2,8 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FeverContainer : MonoBehaviour
-{
+public class FeverContainer : MonoBehaviour {
     [Header("Fever Setting")]
     [SerializeField] private Slider slider;
     [SerializeField] private int maxFeverPoint = 15000;
@@ -40,7 +39,7 @@ public class FeverContainer : MonoBehaviour
 
         // 최대, 최소값 제한
         curFeverPoint = Mathf.Clamp(curFeverPoint + addPoint, 0, maxFeverPoint);
-        
+
         // 슬라이더에 값 반영
         slider.value = (float)curFeverPoint / (float)maxFeverPoint;
 
@@ -51,13 +50,20 @@ public class FeverContainer : MonoBehaviour
         }
     }
 
+
+    // 피버 게이지 초기화
+    public void ResetFever() {
+        curFeverPoint = 0;
+        slider.value = 0;
+    }
+
     // 피버 타임 로직
     public void StartFeverTime() {
         // 예외 처리
         if (!isFevering) return;
 
         // 피버 종료 조건
-        if(currFiverTimer >= maxFiverTime) {
+        if (currFiverTimer >= maxFiverTime) {
             isFevering = false;
             currFiverTimer = 0;
             FeverDirection(isFevering); // 피버 효과 On/Off

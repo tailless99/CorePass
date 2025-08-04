@@ -22,6 +22,7 @@ public class UIManager : Singleton<UIManager> {
 
     // 피버 컨테이너
     public void AddFeverPoint(int addPoint) => feverContainer.AddFeverPoint(addPoint); // 피버 포인트 추가
+    public void ResetFever() => feverContainer.ResetFever(); // 피버 초기화
     
     // 게임 엔딩 컨테이너
     public void ShowGameEndView(bool isGameOver) { // 게임 엔딩 뷰 활성화

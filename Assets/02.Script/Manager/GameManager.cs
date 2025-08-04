@@ -201,11 +201,12 @@ public class GameManager : Singleton<GameManager> {
         if (isInit) {
             gameTime = UIManager.Instance.GetMaxGameTime();
             UIManager.Instance.UpdateClock(gameTime);  // UI 갱신
+            UIManager.Instance.ResetScore(); // 점수 초기화
+            UIManager.Instance.ResetFever(); // 피버 초기화
         }
         changeColorTimer = colorChangeEventCoolTime;
 
         // 다른 컨테이너 초기화
-        UIManager.Instance.ResetScore();
         SoundManager.Instance.AllAudioStop();
         SoundManager.Instance.PlaySound(gameBGM, 0.18f, 1f, true); // BGM 재생
 
