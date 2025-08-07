@@ -2964,7 +2964,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 11.3685, y: 0}
+  m_AnchoredPosition: {x: 11.36853, y: 0}
   m_SizeDelta: {x: -77.1251, y: -21.9969}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &903544782
@@ -4287,6 +4287,7 @@ Transform:
   - {fileID: 1871163488}
   - {fileID: 557761599}
   - {fileID: 1380704192}
+  - {fileID: 1383736560}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1380704191
@@ -4354,6 +4355,56 @@ MonoBehaviour:
   RedCoinObj: []
   BombObj: []
   CloverObj: []
+--- !u!1 &1383736559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1383736560}
+  - component: {fileID: 1383736561}
+  m_Layer: 0
+  m_Name: EventBus Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1383736560
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383736559}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1267245663}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1383736561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383736559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bde26a73328e0e4daa7dbbe99be4706, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onGameOver_ResetUI:
+    m_PersistentCalls:
+      m_Calls: []
+  onGameOver_ResetSound:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1390354840
 GameObject:
   m_ObjectHideFlags: 0
@@ -4480,6 +4531,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 316f3bae85f448e4eaf591787a14d0a5, type: 3}
   - {fileID: 8300000, guid: 2b673ef08c1712447ad043a81d549ab2, type: 3}
   - {fileID: 8300000, guid: 15ddeafb13ef54a47b63e42e095007f1, type: 3}
+  - {fileID: 8300000, guid: 15349ce3907988b4589225c0dae12219, type: 3}
 --- !u!1 &1453777123
 GameObject:
   m_ObjectHideFlags: 0

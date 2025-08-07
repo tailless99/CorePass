@@ -14,6 +14,8 @@ public class SoundManager : Singleton<SoundManager>
     /// 0 : 플레이어 죽음
     /// 1 : 게임오버 오디오
     /// 2 : UI 버튼 클릭
+    /// 3 : Game BGM
+    /// 4 : Game Clear Sound
     /// </summary>
     [SerializeField] private List<AudioClip> commonAudioClipsList;
 
@@ -31,6 +33,16 @@ public class SoundManager : Singleton<SoundManager>
 
         // 미리 지정한 수만큼 오디오 소스를 생성
         AddAudioSource();
+    }
+
+    private void Start() {
+        // BGM 재생
+        PlayBGM();
+
+        // 이벤트 구독
+        EventBusManager.Instance.SubscribeOnGameOver_ResetSound(() => AllAudioStop());
+        EventBusManager.Instance.SubscribeOnGameOver_ResetSound(() => PlaySound(commonAudioClipsList[3], 0.18f, 1f, true));
+        EventBusManager.Instance.SubscribeOnGameClearEvent(() => GameClear());
     }
 
     // 오디오 소스에 할당된 음원을 재생하는 기능
@@ -107,5 +119,13 @@ public class SoundManager : Singleton<SoundManager>
     // 버튼 클릭시 사운드 출력
     public void UIBtnClick() {
         PlayOneShotSound(commonAudioClipsList[2], .5f);
+    }
+
+    private void PlayBGM() {
+        PlaySound(commonAudioClipsList[3], 0.18f, 1f, true);
+    }
+
+    private void GameClear() {
+        PlaySound(commonAudioClipsList[4], 0.18f, 1f);
     }
 }

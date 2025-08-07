@@ -4,8 +4,6 @@ public class GameManager : Singleton<GameManager> {
     [Header("Game Settings")]
     [SerializeField] private float gameTime = 120f; // 1판에 걸리는 시간 제한
     [SerializeField] private float maxSpawnTime = .5f; // 장해물 소환 주기
-    [SerializeField] private AudioClip gameBGM;
-    [SerializeField] private AudioClip gameClearsound;
 
     [Header("Change Color Event Settings")]
     [SerializeField] private GameObject changeColorEffect_Prefab;
@@ -28,7 +26,10 @@ public class GameManager : Singleton<GameManager> {
     }
 
     private void Start() {
-        SoundManager.Instance.PlaySound(gameBGM, 0.18f, 1f, true); // BGM 재생
+        // 이벤트 구독
+        EventBusManager.Instance.SubscribeOnRestartAnimationFinished(() => ReStartGameSetting(false));
+        EventBusManager.Instance.SubscribeOnFeverTimeStarted(() => SetFeverState(true));
+        EventBusManager.Instance.SubscribeOnFeverTimeFinished(() => SetFeverState(false));
     }
 
     private void OnEnable() {
@@ -87,10 +88,8 @@ public class GameManager : Singleton<GameManager> {
             isSpawnStop = false;
             GameOver();
 
-            // 게임 엔드 뷰 출력
-            UIManager.Instance.ShowGameEndView(false);
-            // 클리어 사운드 재생
-            SoundManager.Instance.PlaySound(gameClearsound, 0.18f, 1f);
+            // 게임 클리어 이벤트 실행
+            EventBusManager.Instance.StartEvent_GameClear();
         }
     }
 
@@ -184,9 +183,8 @@ public class GameManager : Singleton<GameManager> {
         isSpawnStop = true; // 소환 막는 플래그
         AllObstacleActive(false);
 
-        // 연출 시작
-        // UI 요소 키기
-        UIManager.Instance.ReStartGame();
+        // 재시작 연출 이벤트 실행
+        EventBusManager.Instance.StartEvent_StartRestartAnimation();
     }
 
     // 게임을 다시 시작하기 위한 전처리
@@ -197,15 +195,12 @@ public class GameManager : Singleton<GameManager> {
         // 초기화 시, 타이머 초기화
         if (isInit) {
             gameTime = UIManager.Instance.GetMaxGameTime();
-            UIManager.Instance.UpdateClock(gameTime);  // UI 갱신
-            UIManager.Instance.ResetScore(); // 점수 초기화
-            UIManager.Instance.ResetFever(); // 피버 초기화
+            EventBusManager.Instance.StartEvent_GameOverResetUI(); // UI 초기화 이벤트 실행
         }
         changeColorTimer = colorChangeEventCoolTime;
 
         // 다른 컨테이너 초기화
-        SoundManager.Instance.AllAudioStop();
-        SoundManager.Instance.PlaySound(gameBGM, 0.18f, 1f, true); // BGM 재생
+        EventBusManager.Instance.StartEvent_GameOverResetSound(); // 사운드 초기화 이벤트 실행
 
         var player = GameObject.Find("Player");
         player.GetComponent<PlayerController>().ToggleGamePlayerActivated(true);

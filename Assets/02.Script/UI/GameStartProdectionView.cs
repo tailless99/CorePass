@@ -28,8 +28,9 @@ public class GameStartProdectionView : MonoBehaviour
         else {
             // 초기화 및 비활성화
             isAnimPlay = false;
-            GameManager.Instance.ReStartGameSetting(); // 게임 실행
-            UIManager.Instance.EndProduction();
+
+            // 연출 종료 이벤트 실행
+            EventBusManager.Instance.StartEvent_EndRestartAnimation();
         }
     }
 

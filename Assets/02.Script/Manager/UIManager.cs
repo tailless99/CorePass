@@ -8,6 +8,18 @@ public class UIManager : Singleton<UIManager> {
     [SerializeField] GameEndContainer gameEndContainer;
     [SerializeField] ResumeProductionContainer resumeProductionContainer;
 
+    private void Start() {
+        // 이벤트 등록
+        EventBusManager.Instance.SubscribeOnPlayerDeathEvent(() => ShowGameEndView(true)); // 플레이어가 죽을 때 이벤트
+        EventBusManager.Instance.SubscribeOnGameClearEvent(() => ShowGameEndView(false)); // 게임 클리어 이벤트
+        EventBusManager.Instance.SubscribeOnRestartAnimationStarted(() => StartRestartEffect()); // 재시작 연출 시작 이벤트
+        EventBusManager.Instance.SubscribeOnRestartAnimationFinished(() => EndProduction()); // 재시작 연출 종료 이벤트
+        EventBusManager.Instance.SubscribeOnGameOver_ResetUI(() => ResetScore()); // 게임 오버 - 초기화 이벤트
+        EventBusManager.Instance.SubscribeOnGameOver_ResetUI(() => ResetFever()); // 게임 오버 - 초기화 이벤트
+        EventBusManager.Instance.SubscribeOnFeverTimeStarted(() => SetFiverState(true)); // 피버 시작 이벤트
+        EventBusManager.Instance.SubscribeOnFeverTimeFinished(() => SetFiverState(false)); // 피버 종료 이벤트
+
+    }
 
     // 기능 처리
     // 점수 컨테이너
@@ -25,13 +37,13 @@ public class UIManager : Singleton<UIManager> {
     public void ResetFever() => feverContainer.ResetFever(); // 피버 초기화
     
     // 게임 엔딩 컨테이너
-    public void ShowGameEndView(bool isGameOver) { // 게임 엔딩 뷰 활성화
+    private void ShowGameEndView(bool isGameOver) { // 게임 엔딩 뷰 활성화
         var gameEndType = isGameOver ? GameEndType.GameOver : GameEndType.GameClear;
         gameEndContainer.gameObject.SetActive(true);
         gameEndContainer.GameEndInitialize(gameEndType);
     }
 
     // resumeProduction 컨테이너
-    public void ReStartGame() => resumeProductionContainer.gameObject.SetActive(true);
-    public void EndProduction() => resumeProductionContainer.EndProduction();
+    private void StartRestartEffect() => resumeProductionContainer.gameObject.SetActive(true);
+    private void EndProduction() => resumeProductionContainer.EndProduction();
 }

@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour {
             isGameEnd = false;
 
             // 게임 전체 진행에 대해 게임 오버 처리
-            UIManager.Instance.ShowGameEndView(true);
+            EventBusManager.Instance.StartEvent_PlayerDeathEvent();
         }
     }
 

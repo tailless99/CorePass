@@ -86,7 +86,7 @@ public class FeverContainer : MonoBehaviour {
         feverBG.SetActive(isFever);
 
         // 피버 효과 On/Off
-        UIManager.Instance.SetFiverState(isFever); // 점수 2배 활성화
-        GameManager.Instance.SetFeverState(isFever); // 콜라이더 활성/비활성화
+        if (isFever) EventBusManager.Instance.StartEvent_StartFeverTime();
+        else EventBusManager.Instance.StartEvent_EndFeverTime();
     }
 }

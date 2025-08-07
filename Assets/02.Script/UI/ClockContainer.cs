@@ -11,6 +11,11 @@ public class ClockContainer : MonoBehaviour
         UpdateClock(0);
     }
 
+    private void Start() {
+        // 이벤트 등록
+        EventBusManager.Instance.SubscribeOnGameOver_ResetUI(() => UpdateClock(maxGameTime));
+    }
+
     public void UpdateClock(float time) {
         var timeTemp = Mathf.Clamp(time, 0, maxGameTime);
         timeText.text = timeTemp.ToString("F0");
