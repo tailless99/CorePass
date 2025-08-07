@@ -1,0 +1,14 @@
+/Build/Bliud.framework.js.gz
+  Content-Encoding: gzip
+  Content-Type: application/javascript
+
+/Build/Bliud.data.gz
+  Content-Encoding: gzip
+  Content-Type: application/octet-stream
+
+/Build/Bliud.wasm.gz
+  Content-Encoding: gzip
+  Content-Type: application/wasm
+
+/Build/Bliud.loader.js
+  Content-Type: application/javascript

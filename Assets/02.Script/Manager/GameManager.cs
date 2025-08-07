@@ -46,9 +46,6 @@ public class GameManager : Singleton<GameManager> {
         changeColorEvent();
         // 장해물 소환
         SpawnObstacle();
-
-        // 장해물 소환 패턴
-        //SelectObstaclePatten();
     }
 
     // 색변환 이벤트
