@@ -43,7 +43,7 @@ public class ObstacleBase : MonoBehaviour {
         }
 
         // 회전속도 랜덤
-        rollSpeed = Random.Range(0.02f, 0.09f);
+        rollSpeed = Random.Range(15f, 20f);
 
         // 콜라이더 활성화
         foreach (var coll in colliders) {
@@ -64,7 +64,7 @@ public class ObstacleBase : MonoBehaviour {
     }
 
     private void Update() {
-        transform.Rotate(Vector3.forward * rollSpeed * rotateDir);
+        transform.Rotate(Vector3.forward * rollSpeed * rotateDir * Time.deltaTime);
         transform.localScale -= Vector3.one * scaleDownSpeed * Time.deltaTime;
     }
 

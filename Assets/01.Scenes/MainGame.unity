@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 21173885}
   - component: {fileID: 21173886}
   - component: {fileID: 21173887}
+  - component: {fileID: 21173888}
   m_Layer: 0
   m_Name: DeathZone
   m_TagString: DeathZone
@@ -257,7 +258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc72eb5b618ce0c41b5931db22453ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rollSpeed: 1
 --- !u!50 &21173887
 Rigidbody2D:
   serializedVersion: 5
@@ -285,6 +285,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!114 &21173888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21173882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ac88e9e93b1ef43b536e95bb20eca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rollSpeed: 800
+  isLeftRoll: 0
 --- !u!1 &39615104
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,6 +669,8 @@ GameObject:
   - component: {fileID: 319694873}
   - component: {fileID: 319694872}
   - component: {fileID: 319694876}
+  - component: {fileID: 319694877}
+  - component: {fileID: 319694878}
   m_Layer: 5
   m_Name: UI Canvas
   m_TagString: Untagged
@@ -767,6 +783,31 @@ MonoBehaviour:
   feverContainer: {fileID: 999700766}
   gameEndContainer: {fileID: 1163847716}
   resumeProductionContainer: {fileID: 142227653}
+--- !u!225 &319694877
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319694871}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!114 &319694878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319694871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc905057659a2ed42955e6f148b011d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myObj: {fileID: 319694877}
 --- !u!1 &349228846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1790,10 +1831,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameTime: 120
   maxSpawnTime: 2
-  gameBGM: {fileID: 8300000, guid: 15349ce3907988b4589225c0dae12219, type: 3}
-  gameClearsound: {fileID: 8300000, guid: b56b02477a805f745a25e42251f02094, type: 3}
   changeColorEffect_Prefab: {fileID: 1704788530}
-  colorChangeEventCoolTime: 23.8
+  colorChangeEventCoolTime: 24.8
 --- !u!1 &602537416
 GameObject:
   m_ObjectHideFlags: 0
@@ -4399,10 +4438,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bde26a73328e0e4daa7dbbe99be4706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onPlayerDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
   onGameOver_ResetUI:
     m_PersistentCalls:
       m_Calls: []
   onGameOver_ResetSound:
+    m_PersistentCalls:
+      m_Calls: []
+  onGameClearEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onRestartAnimationStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onRestartAnimationFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  onFeverTimeStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onFeverTimeFinished:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1390354840
@@ -5287,90 +5344,6 @@ PrefabInstance:
     - target: {fileID: 1883500375649642495, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
       propertyPath: m_Name
       value: Impact Effect
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627198497015228, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.8037735
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627198497015228, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627198497015228, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.30142885
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627198497015231, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627198497015231, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: m_SortingOrder
-      value: 99
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627198497015231, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: m_SortingLayerID
-      value: -2124225117
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627199010703546, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.8037735
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627199010703546, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627199010703546, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.30142885
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627199010703549, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627199010703549, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: m_SortingOrder
-      value: 99
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627199010703549, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: m_SortingLayerID
-      value: -2124225117
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627200078379920, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627200078379920, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: m_SortingOrder
-      value: 99
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627200078379920, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: m_SortingLayerID
-      value: -2124225117
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627200078379921, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.8037735
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627200078379921, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627200078379921, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.30142885
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627200383372086, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627200383372086, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: m_SortingOrder
-      value: 99
-      objectReference: {fileID: 0}
-    - target: {fileID: 2802627200383372086, guid: f519003c04ccd3e42b180d5b21528b50, type: 3}
-      propertyPath: m_SortingLayerID
-      value: -2124225117
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

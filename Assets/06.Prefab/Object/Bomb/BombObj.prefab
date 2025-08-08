@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5780562576800147548}
   - component: {fileID: 2003977704595447584}
   - component: {fileID: 4711717696653239856}
+  - component: {fileID: 6099438630318340121}
   m_Layer: 0
   m_Name: BombObj
   m_TagString: Untagged
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: -2124225117
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2208703988740019828, guid: 0f063c3b26ee76d4587791335648b9fa, type: 3}
+  m_Sprite: {fileID: 1830407849976217386, guid: dcd99e1031200484686eacf34afafaf9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,7 +99,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1380352161539576711}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: cd5bfe922fa2f424ab233c05832b3a17, type: 2}
   m_CullingMode: 0
@@ -165,4 +166,18 @@ MonoBehaviour:
   getCoinSound: {fileID: 8300000, guid: 47c5b059fd8b75949a35bdc11dd16207, type: 3}
   playerSound: 5
   CollideEffect_Prefab: {fileID: 6565603973718227941, guid: df93ed7800473094a802fce711d56489, type: 3}
-  knockBackPower: 15
+  knockBackPower: 10
+--- !u!114 &6099438630318340121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380352161539576711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ac88e9e93b1ef43b536e95bb20eca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rollSpeed: 800
+  isLeftRoll: 0
