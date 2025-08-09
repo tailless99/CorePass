@@ -44,5 +44,5 @@ public class ColorManager : Singleton<ColorManager>
     }
 
     // 현재 셋팅된 컬러 리스트 반환
-    public List<Color> GetUseColorList() => useColorList;
+    public IReadOnlyList<Color> GetUseColorList() => useColorList.AsReadOnly();
 }

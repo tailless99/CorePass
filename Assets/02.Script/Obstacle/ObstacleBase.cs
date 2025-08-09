@@ -15,7 +15,7 @@ public class ObstacleBase : MonoBehaviour {
     [SerializeField] private Transform[] spawnPoints;       // 코인을 소환할 위치
     [SerializeField] private float spawnProbability = 50;   // 코인 생성 확률 
 
-    private List<Color> currentColorList = new List<Color>(); // 현재 사용중인 색상 리스트
+    private IReadOnlyList<Color> currentColorList = new List<Color>(); // 현재 사용중인 색상 리스트
     private float rollSpeed = .05f;
     private float rotateDir;    // T: 왼쪽 회전, F : 오른쪽 회전
     public Vector3 myLocalScale;
