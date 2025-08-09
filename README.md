@@ -14,6 +14,7 @@ CorePass는 다가오는 도형을 빠르게 파악하고 같은 색의 벽은 �
 게임 엔진 - Unity 6 (6000.0.40.f1)<br/>
 형상관리 - GitHub<br/>
 에셋 제작 툴 - Inkscape<br/>
+사용된 디자인 패턴 - 싱글톤, 이벤트 버스, 퍼사드 패턴<br/>
 </br></br>
 
 ## 게임의 목표
@@ -28,4 +29,4 @@ CorePass는 다가오는 도형을 빠르게 파악하고 같은 색의 벽은 �
 ## 조작법
 <img width="392" height="421" alt="image" src="https://github.com/user-attachments/assets/d0cf02f7-ec1d-43df-af23-ff3c7f56fc77" />
 
-- 모바일 터치를 통해 캐릭터를 움직일 수 있습니다.
+- 모바일 터치 이동(스와이프)를 통해 캐릭터를 움직일 수 있습니다.
