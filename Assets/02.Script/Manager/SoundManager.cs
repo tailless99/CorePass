@@ -1,6 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct PlaySoundEvent {
+    public AudioClip clip;
+    public float volume;
+    public float pitch;
+    public bool isLoop;
+
+    // 생성자를 통해 기본값 설정
+    public PlaySoundEvent(AudioClip clip, float volume = 1f, float pitch = 1f, bool isLoop = false) {
+        this.clip = clip;
+        this.volume = volume;
+        this.pitch = pitch;
+        this.isLoop = isLoop;
+    }
+}
 public class SoundManager : Singleton<SoundManager>
 {
     [Header("Settings")]
@@ -39,10 +53,15 @@ public class SoundManager : Singleton<SoundManager>
         // BGM 재생
         PlayBGM();
 
-        // 이벤트 구독
-        EventBusManager.Instance.SubscribeOnGameOver_ResetSound(() => AllAudioStop());
-        EventBusManager.Instance.SubscribeOnGameOver_ResetSound(() => PlaySound(commonAudioClipsList[3], 0.18f, 1f, true));
+        #region 이벤트 구독
+        // 게임 클리어 사운드 
+        EventBusManager.Instance.SubscribeOnGameOver_ResetSound(() => GameClearEventSubscribe());
         EventBusManager.Instance.SubscribeOnGameClearEvent(() => GameClear());
+
+        // 사운드 매니저 함수를 이벤트로 등록
+        EventBusManager.Instance.SubscribeOnPlaySound((args) => OnPlaySoundEvent(args));
+        EventBusManager.Instance.SubscribeOnPlayOneShot((args) => OnPlayOneShotEvent(args));
+        #endregion
     }
 
     // 오디오 소스에 할당된 음원을 재생하는 기능
@@ -128,4 +147,24 @@ public class SoundManager : Singleton<SoundManager>
     private void GameClear() {
         PlaySound(commonAudioClipsList[4], 0.18f, 1f);
     }
+
+
+
+    #region 이벤트 버스에 구독하기 위해 패키징 한 함수들
+    // 이벤트 버스에 구독될 함수의 순서를 보장받기 위해 하나로 묶은 함수
+    private void GameClearEventSubscribe() {
+        AllAudioStop();
+        PlaySound(commonAudioClipsList[3], 0.18f, 1f, true);
+    }
+
+    private void OnPlaySoundEvent(PlaySoundEvent evt) {
+        // 구조체에서 받은 값들을 메서드 매개변수로 전달
+        PlaySound(evt.clip, evt.volume, evt.pitch, evt.isLoop);
+    }
+
+    private void OnPlayOneShotEvent(PlaySoundEvent evt) {
+        // 구조체에서 받은 값들을 메서드 매개변수로 전달
+        PlayOneShotSound(evt.clip, evt.volume, evt.pitch);
+    }
+    #endregion
 }

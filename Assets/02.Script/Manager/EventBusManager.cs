@@ -19,7 +19,15 @@ public class EventBusManager : Singleton<EventBusManager>
     // 피버 시작 이벤트
     public UnityEvent onFeverTimeStarted;
     public UnityEvent onFeverTimeFinished;
-    
+
+    // 점수 획득 이벤트
+    public UnityEvent<int> onAddScore;
+    public UnityEvent<int> onAddFeverPoint;
+
+    // 사운드 이벤트
+    public UnityEvent<PlaySoundEvent> onPlaySound;
+    public UnityEvent<PlaySoundEvent> onPlayOneShot;
+
 
     #region 이벤트 구독 함수들
     public void SubscribeOnPlayerDeathEvent(UnityAction action) => onPlayerDeathEvent.AddListener(action);
@@ -37,6 +45,14 @@ public class EventBusManager : Singleton<EventBusManager>
     public void SubscribeOnFeverTimeStarted(UnityAction action) => onFeverTimeStarted.AddListener(action);
     
     public void SubscribeOnFeverTimeFinished(UnityAction action) => onFeverTimeFinished.AddListener(action);
+    
+    public void SubscribeOnAddScore(UnityAction<int> action) => onAddScore.AddListener(action);
+    
+    public void SubscribeOnAddFeverPoint(UnityAction<int> action) => onAddFeverPoint.AddListener(action);
+
+    public void SubscribeOnPlaySound(UnityAction<PlaySoundEvent> action) => onPlaySound.AddListener(action);
+
+    public void SubscribeOnPlayOneShot(UnityAction<PlaySoundEvent> action) => onPlayOneShot.AddListener(action);
     #endregion
 
 
@@ -64,5 +80,17 @@ public class EventBusManager : Singleton<EventBusManager>
 
     // 피버 시작 이벤트 실행
     public void StartEvent_EndFeverTime() => onFeverTimeFinished.Invoke();
+
+    // 점수 추가 이벤트 실행
+    public void StartEvent_AddScore(int addScore) => onAddScore.Invoke(addScore);
+
+    // 점수 추가 이벤트 실행
+    public void StartEvent_AddFeverPoint(int addFeverPoint) => onAddFeverPoint.Invoke(addFeverPoint);
+
+    // Play Sound 이벤트 실행
+    public void StartEvent_PlaySound(PlaySoundEvent args) => onPlaySound.Invoke(args);
+
+    // Play One Shot 이벤트 실행
+    public void StartEvent_PlayOneShot(PlaySoundEvent args) => onPlayOneShot.Invoke(args);
     #endregion
 }

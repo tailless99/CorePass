@@ -13,10 +13,12 @@ public class ItemBase : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("Player")) {
             DetectedFunc(collision); // 자식에서 재정의해서 사용하는 함수
+
+            // 이벤트 실행
+            EventBusManager.Instance.StartEvent_AddScore(score);
+            EventBusManager.Instance.StartEvent_AddFeverPoint(addFeverScore);
+            EventBusManager.Instance.StartEvent_PlayOneShot(new PlaySoundEvent(getCoinSound, playerSound));
             
-            UIManager.Instance.AddScore(score);
-            UIManager.Instance.AddFeverPoint(addFeverScore);
-            SoundManager.Instance.PlayOneShotSound(getCoinSound, playerSound);
             transform.gameObject.SetActive(false);
         }
     }

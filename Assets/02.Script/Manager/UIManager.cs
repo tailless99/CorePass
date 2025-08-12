@@ -9,15 +9,30 @@ public class UIManager : Singleton<UIManager> {
     [SerializeField] ResumeProductionContainer resumeProductionContainer;
 
     private void Start() {
-        // 이벤트 등록
+
+        #region 이벤트 등록
+        // 플레이어 사망 이벤트
         EventBusManager.Instance.SubscribeOnPlayerDeathEvent(() => ShowGameEndView(true)); // 플레이어가 죽을 때 이벤트
+
+        // 게임 클리어 이벤트
         EventBusManager.Instance.SubscribeOnGameClearEvent(() => ShowGameEndView(false)); // 게임 클리어 이벤트
+
+        // 게임 다시 시작 이벤트
         EventBusManager.Instance.SubscribeOnRestartAnimationStarted(() => StartRestartEffect()); // 재시작 연출 시작 이벤트
         EventBusManager.Instance.SubscribeOnRestartAnimationFinished(() => EndProduction()); // 재시작 연출 종료 이벤트
+
+        // 게임 오버 이벤트
         EventBusManager.Instance.SubscribeOnGameOver_ResetUI(() => ResetScore()); // 게임 오버 - 초기화 이벤트
         EventBusManager.Instance.SubscribeOnGameOver_ResetUI(() => ResetFever()); // 게임 오버 - 초기화 이벤트
+
+        // 피버 이벤트
         EventBusManager.Instance.SubscribeOnFeverTimeStarted(() => SetFiverState(true)); // 피버 시작 이벤트
         EventBusManager.Instance.SubscribeOnFeverTimeFinished(() => SetFiverState(false)); // 피버 종료 이벤트
+
+        // 점수/피버 점수 추가 이벤트
+        EventBusManager.Instance.SubscribeOnAddScore((addScore) => AddScore(addScore)); // 피버 시작 이벤트
+        EventBusManager.Instance.SubscribeOnAddFeverPoint((addFeverPoint => AddFeverPoint(addFeverPoint))); // 피버 종료 이벤트
+        #endregion
 
     }
 
