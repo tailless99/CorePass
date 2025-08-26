@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour {
     private Vector2 moveDir;
     private Vector2 originPos; // 시작 위치
     private bool isKnockBack;
-    private float maxKnockBackTime = 0.25f;
+    private float maxKnockBackTime = 0.35f;
     private float currKnockBackCoolTime = 0;
 
     // 플레이어 죽음관련 변수

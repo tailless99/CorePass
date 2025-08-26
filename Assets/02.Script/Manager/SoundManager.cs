@@ -15,8 +15,7 @@ public struct PlaySoundEvent {
         this.isLoop = isLoop;
     }
 }
-public class SoundManager : Singleton<SoundManager>
-{
+public class SoundManager : Singleton<SoundManager> {
     [Header("Settings")]
     [SerializeField] private int numberOfSources = 10; // 동시 재생 가능한 오디오 숫자
     [SerializeField] private GameObject audioSourcePrefab; // 오디오 소스 컴포넌트를 생성할 오브젝트 프리팹
@@ -36,6 +35,7 @@ public class SoundManager : Singleton<SoundManager>
 
     // 오디오 소스 컴포넌트 모음
     private List<AudioSource> availableSources;
+    private AudioSource bgmAudioSource;
 
     // 변수 모음
     private bool isGameOver;
@@ -54,6 +54,9 @@ public class SoundManager : Singleton<SoundManager>
         PlayBGM();
 
         #region 이벤트 구독
+        // BGM 조절
+        EventBusManager.Instance.SubscribeOnChangedBGMVolume((newVolume) => OnChangedBGMVolume(newVolume));
+
         // 게임 클리어 사운드 
         EventBusManager.Instance.SubscribeOnGameOver_ResetSound(() => GameClearEventSubscribe());
         EventBusManager.Instance.SubscribeOnGameClearEvent(() => GameClear());
@@ -65,7 +68,7 @@ public class SoundManager : Singleton<SoundManager>
     }
 
     // 오디오 소스에 할당된 음원을 재생하는 기능
-    public void PlaySound(AudioClip clip, float volume = 1f, float pitch = 1f, bool isLoop = false) {
+    public void PlaySound(AudioClip clip, float volume = 1f, float pitch = 1f, bool isLoop = false, bool isBGM = false) {
         AudioSource source = GetAvailableSource();
         if (source != null && clip != null) {
             source.clip = clip;
@@ -74,6 +77,9 @@ public class SoundManager : Singleton<SoundManager>
             source.loop = isLoop;
             source.Play();
         }
+
+        // BGM 조절용 Audiosource 저장
+        if (isBGM) bgmAudioSource = source;
     }
 
     // 현재 재생 중인 클립에 겹쳐서 지정된 클립을 한번 더 재생. 1번만 재생되는 기능
@@ -141,7 +147,7 @@ public class SoundManager : Singleton<SoundManager>
     }
 
     private void PlayBGM() {
-        PlaySound(commonAudioClipsList[3], 0.18f, 1f, true);
+        PlaySound(commonAudioClipsList[3], 0.5f, 1f, true, true);
     }
 
     private void GameClear() {
@@ -167,4 +173,18 @@ public class SoundManager : Singleton<SoundManager>
         PlayOneShotSound(evt.clip, evt.volume, evt.pitch);
     }
     #endregion
+
+    public void PauseAudio() {
+        Debug.Log("[Debug] PauseAudio called from JavaScript."); // 로그 추가
+        AudioListener.pause = true;
+    }
+    
+    public void ResumeAudio() {
+        Debug.Log("[Debug] ResumeAudio called from JavaScript."); // 로그 추가
+        AudioListener.pause = false;
+    }
+
+    private void OnChangedBGMVolume(float newVolume) {
+        bgmAudioSource.volume = newVolume;
+    }
 }

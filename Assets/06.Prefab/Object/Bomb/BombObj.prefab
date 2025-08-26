@@ -166,7 +166,7 @@ MonoBehaviour:
   getCoinSound: {fileID: 8300000, guid: 47c5b059fd8b75949a35bdc11dd16207, type: 3}
   playerSound: 5
   CollideEffect_Prefab: {fileID: 6565603973718227941, guid: df93ed7800473094a802fce711d56489, type: 3}
-  knockBackPower: 10
+  knockBackPower: 20
 --- !u!114 &6099438630318340121
 MonoBehaviour:
   m_ObjectHideFlags: 0

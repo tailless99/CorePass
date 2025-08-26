@@ -27,6 +27,7 @@ public class EventBusManager : Singleton<EventBusManager>
     // 사운드 이벤트
     public UnityEvent<PlaySoundEvent> onPlaySound;
     public UnityEvent<PlaySoundEvent> onPlayOneShot;
+    public UnityEvent<float> onChangedBGMVolume;
 
 
     #region 이벤트 구독 함수들
@@ -53,6 +54,8 @@ public class EventBusManager : Singleton<EventBusManager>
     public void SubscribeOnPlaySound(UnityAction<PlaySoundEvent> action) => onPlaySound.AddListener(action);
 
     public void SubscribeOnPlayOneShot(UnityAction<PlaySoundEvent> action) => onPlayOneShot.AddListener(action);
+    
+    public void SubscribeOnChangedBGMVolume(UnityAction<float> action) => onChangedBGMVolume.AddListener(action);
     #endregion
 
 
@@ -92,5 +95,8 @@ public class EventBusManager : Singleton<EventBusManager>
 
     // Play One Shot 이벤트 실행
     public void StartEvent_PlayOneShot(PlaySoundEvent args) => onPlayOneShot.Invoke(args);
+
+    // BGM 볼륨 변경 이벤트 실행
+    public void StartEvent_ChangeBGMVolume(float volume) => onChangedBGMVolume.Invoke(volume);
     #endregion
 }
