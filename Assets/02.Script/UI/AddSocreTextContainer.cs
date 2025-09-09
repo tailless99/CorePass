@@ -9,7 +9,7 @@ public class AddSocreTextContainer : MonoBehaviour
 
     private void Start() {
         // 이벤트 구독
-        EventBusManager.Instance.SubscribeOnAddScore((addScore) => AddScoreTextActive(addScore));
+        EventBusManager.Instance.Subscribe<AddScoreEvent>((e) => AddScoreTextActive(e.Score));
     }
 
     private void AddScoreTextActive(int addScore) {

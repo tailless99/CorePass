@@ -27,9 +27,9 @@ public class GameManager : Singleton<GameManager> {
 
     private void Start() {
         // 이벤트 구독
-        EventBusManager.Instance.SubscribeOnRestartAnimationFinished(() => ReStartGameSetting(false));
-        EventBusManager.Instance.SubscribeOnFeverTimeStarted(() => SetFeverState(true));
-        EventBusManager.Instance.SubscribeOnFeverTimeFinished(() => SetFeverState(false));
+        EventBusManager.Instance.Subscribe<RestartAnimationFinishedEvent>(_ => ReStartGameSetting());
+        EventBusManager.Instance.Subscribe<FeverTimeStartedEvent>(_=> SetFeverState(true));
+        EventBusManager.Instance.Subscribe<FeverTimeFinishedEvent>(_=> SetFeverState(false));
     }
 
     private void OnEnable() {
@@ -89,7 +89,7 @@ public class GameManager : Singleton<GameManager> {
             GameOver();
 
             // 게임 클리어 이벤트 실행
-            EventBusManager.Instance.StartEvent_GameClear();
+            EventBusManager.Instance.Publish(new GameClearEvent());
         }
     }
 
@@ -184,7 +184,7 @@ public class GameManager : Singleton<GameManager> {
         AllObstacleActive(false);
 
         // 재시작 연출 이벤트 실행
-        EventBusManager.Instance.StartEvent_StartRestartAnimation();
+        EventBusManager.Instance.Publish(new RestartAnimationStartedEvent());
     }
 
     // 게임을 다시 시작하기 위한 전처리
@@ -195,12 +195,12 @@ public class GameManager : Singleton<GameManager> {
         // 초기화 시, 타이머 초기화
         if (isInit) {
             gameTime = UIManager.Instance.GetMaxGameTime();
-            EventBusManager.Instance.StartEvent_GameOverResetUI(); // UI 초기화 이벤트 실행
+            EventBusManager.Instance.Publish(new GameOver_ResetUIEvent()); // UI 초기화 이벤트 실행
         }
         changeColorTimer = colorChangeEventCoolTime;
 
         // 다른 컨테이너 초기화
-        EventBusManager.Instance.StartEvent_GameOverResetSound(); // 사운드 초기화 이벤트 실행
+        EventBusManager.Instance.Publish(new GameOver_ResetSoundEvent()); // 사운드 초기화 이벤트 실행
 
         var player = GameObject.Find("Player");
         player.GetComponent<PlayerController>().ToggleGamePlayerActivated(true);

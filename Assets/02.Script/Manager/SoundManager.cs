@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
-public struct PlaySoundEvent {
+public struct PlaySoundData {
     public AudioClip clip;
     public float volume;
     public float pitch;
     public bool isLoop;
 
     // 생성자를 통해 기본값 설정
-    public PlaySoundEvent(AudioClip clip, float volume = 1f, float pitch = 1f, bool isLoop = false) {
+    public PlaySoundData(AudioClip clip, float volume = 1f, float pitch = 1f, bool isLoop = false) {
         this.clip = clip;
         this.volume = volume;
         this.pitch = pitch;
@@ -55,15 +56,15 @@ public class SoundManager : Singleton<SoundManager> {
 
         #region 이벤트 구독
         // BGM 조절
-        EventBusManager.Instance.SubscribeOnChangedBGMVolume((newVolume) => OnChangedBGMVolume(newVolume));
+        EventBusManager.Instance.Subscribe<ChangedBGMVolumeEvent>(e => OnChangedBGMVolume(e.Volum));
 
         // 게임 클리어 사운드 
-        EventBusManager.Instance.SubscribeOnGameOver_ResetSound(() => GameClearEventSubscribe());
-        EventBusManager.Instance.SubscribeOnGameClearEvent(() => GameClear());
+        EventBusManager.Instance.Subscribe<GameOver_ResetSoundEvent>(_ => GameClearEventSubscribe());
+        EventBusManager.Instance.Subscribe<GameClearEvent>(_ => GameClear());
 
         // 사운드 매니저 함수를 이벤트로 등록
-        EventBusManager.Instance.SubscribeOnPlaySound((args) => OnPlaySoundEvent(args));
-        EventBusManager.Instance.SubscribeOnPlayOneShot((args) => OnPlayOneShotEvent(args));
+        EventBusManager.Instance.Subscribe<PlaySoundEvent>(e => OnPlaySoundEvent(e.Data));
+        EventBusManager.Instance.Subscribe<PlayOneShotEvent>(e => OnPlayOneShotEvent(e.Data));
         #endregion
     }
 
@@ -163,12 +164,12 @@ public class SoundManager : Singleton<SoundManager> {
         PlaySound(commonAudioClipsList[3], 0.18f, 1f, true);
     }
 
-    private void OnPlaySoundEvent(PlaySoundEvent evt) {
+    private void OnPlaySoundEvent(PlaySoundData evt) {
         // 구조체에서 받은 값들을 메서드 매개변수로 전달
         PlaySound(evt.clip, evt.volume, evt.pitch, evt.isLoop);
     }
 
-    private void OnPlayOneShotEvent(PlaySoundEvent evt) {
+    private void OnPlayOneShotEvent(PlaySoundData evt) {
         // 구조체에서 받은 값들을 메서드 매개변수로 전달
         PlayOneShotSound(evt.clip, evt.volume, evt.pitch);
     }

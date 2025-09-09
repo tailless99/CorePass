@@ -13,7 +13,7 @@ public class ClockContainer : MonoBehaviour
 
     private void Start() {
         // 이벤트 등록
-        EventBusManager.Instance.SubscribeOnGameOver_ResetUI(() => UpdateClock(maxGameTime));
+        EventBusManager.Instance.Subscribe<GameOver_ResetUIEvent>(_=> UpdateClock(maxGameTime));
     }
 
     public void UpdateClock(float time) {

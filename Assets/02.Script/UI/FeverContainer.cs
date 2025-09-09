@@ -86,7 +86,7 @@ public class FeverContainer : MonoBehaviour {
         feverBG.SetActive(isFever);
 
         // 피버 효과 On/Off
-        if (isFever) EventBusManager.Instance.StartEvent_StartFeverTime();
-        else EventBusManager.Instance.StartEvent_EndFeverTime();
+        if (isFever) EventBusManager.Instance.Publish(new FeverTimeStartedEvent());
+        else EventBusManager.Instance.Publish(new FeverTimeFinishedEvent());
     }
 }

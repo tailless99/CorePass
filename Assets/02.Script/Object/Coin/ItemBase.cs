@@ -15,9 +15,9 @@ public class ItemBase : MonoBehaviour {
             DetectedFunc(collision); // 자식에서 재정의해서 사용하는 함수
 
             // 이벤트 실행
-            EventBusManager.Instance.StartEvent_AddScore(score);
-            EventBusManager.Instance.StartEvent_AddFeverPoint(addFeverScore);
-            EventBusManager.Instance.StartEvent_PlayOneShot(new PlaySoundEvent(getCoinSound, playerSound));
+            EventBusManager.Instance.Publish(new AddScoreEvent(score));
+            EventBusManager.Instance.Publish(new AddFeverPointEvent(addFeverScore));
+            EventBusManager.Instance.Publish(new PlayOneShotEvent(new PlaySoundData(getCoinSound, playerSound)));
             
             transform.gameObject.SetActive(false);
         }

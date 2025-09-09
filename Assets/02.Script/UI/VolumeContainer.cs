@@ -16,7 +16,7 @@ public class VolumeContainer : MonoBehaviour, IPointerUpHandler, IPointerDownHan
 
     // 볼륨 슬라이더가 변경되었을 때 호출되는 함수
     public void onChangedSliderValue() {
-        EventBusManager.Instance.StartEvent_ChangeBGMVolume(volumeSlider.value);
+        EventBusManager.Instance.Publish(new ChangedBGMVolumeEvent(volumeSlider.value));
     }
 
     // 슬라이더가 눌렸을 때

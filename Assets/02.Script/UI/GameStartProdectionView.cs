@@ -30,7 +30,7 @@ public class GameStartProdectionView : MonoBehaviour
             isAnimPlay = false;
 
             // 연출 종료 이벤트 실행
-            EventBusManager.Instance.StartEvent_EndRestartAnimation();
+            EventBusManager.Instance.Publish(new RestartAnimationFinishedEvent());
         }
     }
 

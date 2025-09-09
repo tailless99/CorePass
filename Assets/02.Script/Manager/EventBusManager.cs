@@ -1,102 +1,46 @@
 using System;
-using UnityEngine;
-using UnityEngine.Events;
+using System.Collections.Generic;
 
-public class EventBusManager : Singleton<EventBusManager>
-{
-    // 게임 오버 이벤트
-    public UnityEvent onPlayerDeathEvent; // 플레이어가 죽을 때 실행되는 이벤트
-    public UnityEvent onGameOver_ResetUI; // 점수, 피버, UI 등 초기화 이벤트
-    public UnityEvent onGameOver_ResetSound; // 사운드 초기화 이벤트
+public class EventBusManager : Singleton<EventBusManager> {
+    // 이벤트를 담을 딕셔너리
+    private Dictionary<Type, List<Action<EventData>>> _eventListeners = new Dictionary<Type, List<Action<EventData>>>();
 
-    // 게임 클리어 이벤트
-    public UnityEvent onGameClearEvent;
+    /// <summary>
+    /// 이벤트를 구독하는 기능
+    /// </summary>
+    public void Subscribe<T>(Action<T> listener) where T : EventData {
+        Type type = typeof(T);
+        if (!_eventListeners.ContainsKey(type)) {
+            _eventListeners[type] = new List<Action<EventData>>();
+        }
 
-    // 재시작 연출 종료 이벤트
-    public UnityEvent onRestartAnimationStarted;
-    public UnityEvent onRestartAnimationFinished;
+        if (listener != null) {
+            // T 타입의 이벤트를 받아 EventData 타입으로 변환 후 호출하는 람다 함수 생성
+            Action<EventData> wrapper = (e) => listener((T)e);
 
-    // 피버 시작 이벤트
-    public UnityEvent onFeverTimeStarted;
-    public UnityEvent onFeverTimeFinished;
+            _eventListeners[type].Add(wrapper);
+        }
+    }
 
-    // 점수 획득 이벤트
-    public UnityEvent<int> onAddScore;
-    public UnityEvent<int> onAddFeverPoint;
+    /// <summary>
+    /// 이벤트를 실행하는 기능
+    /// </summary>
+    public void Publish<T>(T eventData) where T : EventData {
+        Type type = typeof(T);
+        if (_eventListeners.ContainsKey(type)) {
+            foreach (var listener in _eventListeners[type]) {
+                listener?.Invoke(eventData);
+            }
+        }
+    }
 
-    // 사운드 이벤트
-    public UnityEvent<PlaySoundEvent> onPlaySound;
-    public UnityEvent<PlaySoundEvent> onPlayOneShot;
-    public UnityEvent<float> onChangedBGMVolume;
-
-
-    #region 이벤트 구독 함수들
-    public void SubscribeOnPlayerDeathEvent(UnityAction action) => onPlayerDeathEvent.AddListener(action);
-
-    public void SubscribeOnGameOver_ResetUI(UnityAction action) => onGameOver_ResetUI.AddListener(action);
-
-    public void SubscribeOnGameOver_ResetSound(UnityAction action) => onGameOver_ResetSound.AddListener(action);
-
-    public void SubscribeOnGameClearEvent(UnityAction action) => onGameClearEvent.AddListener(action);
-    
-    public void SubscribeOnRestartAnimationStarted(UnityAction action) => onRestartAnimationStarted.AddListener(action);
-    
-    public void SubscribeOnRestartAnimationFinished(UnityAction action) => onRestartAnimationFinished.AddListener(action);
-    
-    public void SubscribeOnFeverTimeStarted(UnityAction action) => onFeverTimeStarted.AddListener(action);
-    
-    public void SubscribeOnFeverTimeFinished(UnityAction action) => onFeverTimeFinished.AddListener(action);
-    
-    public void SubscribeOnAddScore(UnityAction<int> action) => onAddScore.AddListener(action);
-    
-    public void SubscribeOnAddFeverPoint(UnityAction<int> action) => onAddFeverPoint.AddListener(action);
-
-    public void SubscribeOnPlaySound(UnityAction<PlaySoundEvent> action) => onPlaySound.AddListener(action);
-
-    public void SubscribeOnPlayOneShot(UnityAction<PlaySoundEvent> action) => onPlayOneShot.AddListener(action);
-    
-    public void SubscribeOnChangedBGMVolume(UnityAction<float> action) => onChangedBGMVolume.AddListener(action);
-    #endregion
-
-
-    #region 이벤트 실행 함수들
-    // 게임 오버시, UI 요소 초기화 이벤트 실행
-    public void StartEvent_PlayerDeathEvent() => onPlayerDeathEvent.Invoke();
-
-    // 게임 오버시, UI 요소 초기화 이벤트 실행
-    public void StartEvent_GameOverResetUI() => onGameOver_ResetUI.Invoke();
-    
-    // 게임 오버시, Sound 요소 초기화 이벤트 실행
-    public void StartEvent_GameOverResetSound() => onGameOver_ResetSound.Invoke();
-
-    // 게임 클리어 이벤트 실행
-    public void StartEvent_GameClear() => onGameClearEvent.Invoke();
-
-    // 재시작 연출 종료 이벤트 실행
-    public void StartEvent_StartRestartAnimation() => onRestartAnimationStarted.Invoke();
-
-    // 재시작 연출 종료 이벤트 실행
-    public void StartEvent_EndRestartAnimation() => onRestartAnimationFinished.Invoke();
-
-    // 피버 시작 이벤트 실행
-    public void StartEvent_StartFeverTime() => onFeverTimeStarted.Invoke();
-
-    // 피버 시작 이벤트 실행
-    public void StartEvent_EndFeverTime() => onFeverTimeFinished.Invoke();
-
-    // 점수 추가 이벤트 실행
-    public void StartEvent_AddScore(int addScore) => onAddScore.Invoke(addScore);
-
-    // 점수 추가 이벤트 실행
-    public void StartEvent_AddFeverPoint(int addFeverPoint) => onAddFeverPoint.Invoke(addFeverPoint);
-
-    // Play Sound 이벤트 실행
-    public void StartEvent_PlaySound(PlaySoundEvent args) => onPlaySound.Invoke(args);
-
-    // Play One Shot 이벤트 실행
-    public void StartEvent_PlayOneShot(PlaySoundEvent args) => onPlayOneShot.Invoke(args);
-
-    // BGM 볼륨 변경 이벤트 실행
-    public void StartEvent_ChangeBGMVolume(float volume) => onChangedBGMVolume.Invoke(volume);
-    #endregion
+    /// <summary>
+    /// 이벤트 구독을 해지하는 기능
+    /// </summary>
+    public void Unsubscribe<T>(Action<T> listener) where T : EventData {
+        Type type = typeof(T);
+        if (_eventListeners.ContainsKey(type)) {
+            _eventListeners[type].Remove(listener as Action<EventData>);
+        }
+    }
 }
