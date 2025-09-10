@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,6 +13,10 @@ public class GameEndContainer : MonoBehaviour
     [SerializeField] private GameObject AdvertisingBtn; // 광고보고 다시하기 버튼
 
     [SerializeField] private bool isReStarted;
+
+    private void Start() {
+        EventBusManager.Instance.Subscribe<TakeRewardAfterAdEvent>(_=> ResumeGameAfterAd());
+    }
 
     public void GameEndInitialize(GameEndType type) {
         this.type = type;
@@ -41,9 +46,8 @@ public class GameEndContainer : MonoBehaviour
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    // 광고 본 후의 리워드(다시 시작) 함수
     public void ResumeGameAfterAd() {
-        // 광고 보여주기
-
         // 다시 시작하기 기능
         GameManager.Instance.ResumeGameAfterAd();
         gameObject.SetActive(false);

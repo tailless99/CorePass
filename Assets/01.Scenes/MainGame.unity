@@ -5738,6 +5738,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1163847715}
   - component: {fileID: 1163847716}
+  - component: {fileID: 1163847717}
   m_Layer: 5
   m_Name: Game End Container
   m_TagString: Untagged
@@ -5781,6 +5782,19 @@ MonoBehaviour:
   score: {fileID: 1055581611}
   AdvertisingBtn: {fileID: 1682348797}
   isReStarted: 0
+--- !u!114 &1163847717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163847714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 783a9966bef2dd84796fd8d0b404a962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showAdButton: {fileID: 1682348799}
 --- !u!1 &1170731960
 GameObject:
   m_ObjectHideFlags: 0
@@ -6554,45 +6568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bde26a73328e0e4daa7dbbe99be4706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onPlayerDeathEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  onGameOver_ResetUI:
-    m_PersistentCalls:
-      m_Calls: []
-  onGameOver_ResetSound:
-    m_PersistentCalls:
-      m_Calls: []
-  onGameClearEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  onRestartAnimationStarted:
-    m_PersistentCalls:
-      m_Calls: []
-  onRestartAnimationFinished:
-    m_PersistentCalls:
-      m_Calls: []
-  onFeverTimeStarted:
-    m_PersistentCalls:
-      m_Calls: []
-  onFeverTimeFinished:
-    m_PersistentCalls:
-      m_Calls: []
-  onAddScore:
-    m_PersistentCalls:
-      m_Calls: []
-  onAddFeverPoint:
-    m_PersistentCalls:
-      m_Calls: []
-  onPlaySound:
-    m_PersistentCalls:
-      m_Calls: []
-  onPlayOneShot:
-    m_PersistentCalls:
-      m_Calls: []
-  onChangedBGMVolume:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1390354840
 GameObject:
   m_ObjectHideFlags: 0

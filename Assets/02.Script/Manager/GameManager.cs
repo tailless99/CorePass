@@ -1,3 +1,4 @@
+using GoogleMobileAds.Api;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager> {
